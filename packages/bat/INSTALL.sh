@@ -11,9 +11,19 @@ fi
 
 # Install packages
 
-scoop install rust # We will compile a rust code
+which cargo > /dev/null 2>&1
 
-# Push the current directory to the stack
+if [ $? -ne 0 ]; then
+    scoop install rust
+fi
+
+scoop reset rust # Ensure it's in PATH
+
+# Use powershell to extract ./files/bat.zip
+
+powershell -Command "Expand-Archive -Path ./files/bat.zip -DestinationPath ./files/bat"
+
+# Push current directory to the stack
 
 pushd .
 
@@ -21,14 +31,25 @@ pushd .
 
 cd ./files/bat
 
-# Compile
+# Compile it
 
 cargo build --release
 
-# Go back to the pushed directory
+# Try to find where bat.exe is
+
+bat_path=$(find . -type f -name "bat.exe" -print -quit)
+
+if [[ -z "$bat_path" ]]; then
+    echo "bat.exe not found."
+    exit 1
+fi
+
+echo "Found bat.exe at: $bat_path"
+
+# Copy bat.exe to /usr/bin
+
+cp "$bat_path" /usr/bin/bat.exe
+
+# Restore the stack
 
 popd
-
-# Copy ./files/bat/target/bat.exe to /usr/bin/bat.exe
-
-cp ./files/bat/target/bat.exe /usr/bin/bat.exe

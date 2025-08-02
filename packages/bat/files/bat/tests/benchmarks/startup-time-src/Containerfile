@@ -1,3 +1,0 @@
-FROM docker.io/alpine:latest
-COPY foo /root/bar
-RUN sleep 60
