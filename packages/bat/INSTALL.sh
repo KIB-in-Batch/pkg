@@ -14,10 +14,10 @@ powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expres
 which cargo > /dev/null 2>&1
 
 if [ $? -ne 0 ]; then
-    scoop install rust
+    powershell -Command "\$env:USERPROFILE\\scoop\\shims\\scoop.cmd install rust"
 fi
 
-scoop reset rust # Ensure it's in PATH
+powershell -Command "\$env:USERPROFILE\\scoop\\shims\\scoop.cmd reset rust"
 
 # Use powershell to extract ./files/bat.zip
 
