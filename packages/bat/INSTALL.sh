@@ -27,9 +27,9 @@ powershell -Command "Expand-Archive -Path ./files/bat.zip -DestinationPath ./fil
 
 pushd .
 
-# Cd to ./files/bat
+# Cd to ./files/bat/bat
 
-cd ./files/bat
+cd ./files/bat/bat
 
 # Compile it
 
