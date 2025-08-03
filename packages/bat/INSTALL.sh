@@ -17,7 +17,7 @@ if [ $? -ne 0 ]; then
     powershell -Command "& \"\$env:USERPROFILE\\scoop\\shims\\scoop.cmd\" install rust"
 fi
 
-powershell -Command "& \"\$env:USERPROFILE\\scoop\\shims\\scoop.cmd\" reset rust"
+powershell -Command "& \"\$env:USERPROFILE\\scoop\\shims\\scoop.cmd\" reset rust" > /dev/null 2>&1
 
 # Use powershell to extract ./files/bat.zip
 
