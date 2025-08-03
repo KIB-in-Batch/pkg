@@ -6,12 +6,8 @@
 
 # Install scoop using PowerShell
 
-which scoop > /dev/null 2>&1
-
-if [ $? -ne 0 ]; then
-    powershell -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser"
-    powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
-fi
+powershell -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser"
+powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
 
 # Install packages
 
