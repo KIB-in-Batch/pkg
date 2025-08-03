@@ -1,5 +1,9 @@
 #!/bin/sh
 
+## INSTALL SCRIPT FOR KALI IN BATCH BAT PACKAGE ##
+# Compiles bat, a clone of cat with syntax highlighting from source and installs it.
+# Meant to be used with kib-pkg, not directly here!
+
 # Install scoop using PowerShell
 
 which scoop > /dev/null 2>&1
@@ -23,11 +27,7 @@ scoop reset rust # Ensure it's in PATH
 
 powershell -Command "Expand-Archive -Path ./files/bat.zip -DestinationPath ./files/bat"
 
-# Push current directory to the stack
-
-pushd .
-
-# Cd to ./files/bat/bat
+# Change to bat directory
 
 cd ./files/bat/bat
 
@@ -49,7 +49,3 @@ echo "Found bat.exe at: $bat_path"
 # Copy bat.exe to /usr/bin
 
 cp "$bat_path" /usr/bin/bat.exe
-
-# Restore the stack
-
-popd
