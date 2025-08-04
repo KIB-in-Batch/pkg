@@ -1,0 +1,7 @@
+#!/bin/sh
+
+## INSTALL SCRIPT FOR KALI IN BATCH MAKE PACKAGE ##
+# Copies the make binary to /usr/bin.
+# Meant to be used with kib-pkg, not directly here!
+
+cp -f ./files/make.exe /usr/bin/make.exe
