@@ -11,10 +11,8 @@ cp -f ./files/* /usr/lib/file/
 
 kaliroot=$(cat $APPDATA/kali_in_batch/kaliroot.txt)
 
-# Add $kaliroot/usr/lib/file to PATH
-
-export PATH="$kaliroot/usr/lib/file:$PATH"
-
 # Add that to .bashrc
 
-echo "export PATH=\"$kaliroot/usr/lib/file:$PATH\"" >> ~/.bashrc
+echo "export PATH=\"\$USERPROFILE/kali/usr/lib/file:\$PATH\"" >> ~/.bashrc
+
+echo "For the package to work, please source .bashrc to add the path to your PATH variable."
