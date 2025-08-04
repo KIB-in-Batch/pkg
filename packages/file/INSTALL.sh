@@ -7,12 +7,14 @@ mkdir -p /usr/lib/file
 
 cp -f ./files/* /usr/lib/file/
 
-# Make /usr/bin/file.exe a symlink to /usr/lib/file/file.exe
+# Fetch kaliroot from $APPDATA/kali_in_batch/kaliroot.txt
 
-ln -s /usr/lib/file/file.exe /usr/bin/file.exe
+kaliroot=$(cat $APPDATA/kali_in_batch/kaliroot.txt)
 
-if [ $? -eq 0 ]; then
-    echo "Could copy files because yes"
-else
-    echo "Unable to create symlinks, please enable developer mode or run Kali in Batch as admin."
-fi
+# Add $kaliroot/usr/lib/file to PATH
+
+export PATH="$kaliroot/usr/lib/file:$PATH"
+
+# Add that to .bashrc
+
+echo "export PATH=\"$kaliroot/usr/lib/file:$PATH\"" >> ~/.bashrc
