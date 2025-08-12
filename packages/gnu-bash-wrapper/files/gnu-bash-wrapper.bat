@@ -18,4 +18,6 @@ rem Replace backslashes with slashes in HOME
 
 set "HOME=!HOME:\=/!"
 
-"!bash_path!" --rcfile !rcfilepath! %*
+set "BASH_ENV=!rcfilepath!"
+
+"!bash_path!" %*
