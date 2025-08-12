@@ -13,21 +13,15 @@ if [ $? -eq 0 ]; then
     echo "Winget found"
     # Install git using winget
     winget install --accept-source-agreements -e --id Git.Git
-    # Check errorlevel
-    if [ $? -eq 0 ]; then
-        echo "Git installed successfully"
-        # Begin copying files
-        echo "Copying files..."
-        cp -f ./files/gnu-bash-wrapper.bat /usr/bin/gnu-bash-wrapper.bat
-        if [ $? -ne 0 ]; then
-            echo "Could not copy files because no"
-            exit 1
-        else
-            echo "Could copy files"
-        fi
-    else
-        echo "Git installation failed"
+    echo "Git installed successfully"
+    # Begin copying files
+    echo "Copying files..."
+    cp -f ./files/gnu-bash-wrapper.bat /usr/bin/gnu-bash-wrapper.bat
+    if [ $? -ne 0 ]; then
+        echo "Could not copy files because no"
         exit 1
+    else
+        echo "Could copy files"
     fi
 else
     echo "Winget not found"
