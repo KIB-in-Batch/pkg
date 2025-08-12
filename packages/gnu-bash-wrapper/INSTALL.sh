@@ -25,6 +25,7 @@ if [ $? -eq 0 ]; then
         exit 1
     fi
     rm -rf /usr/bin/gnu-bash-wrapper.bat
+    rm -rf /usr/bin/gbash.exe
     export GIT_PATH="$(./files/file-copy.bat)"
     # Loop for each Msys dll file in $GIT_PATH/usr/bin
     for dll in $(find "$GIT_PATH/usr/bin" -type f -name "*.dll"); do
