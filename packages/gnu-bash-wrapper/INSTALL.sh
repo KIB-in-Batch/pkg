@@ -17,10 +17,28 @@ if [ $? -eq 0 ]; then
     # Begin copying files
     echo "Copying files..."
     rm -rf /usr/bin/gnu-bash-wrapper.bat
-    export GIT_PATH=$(./files/file-copy.bat)
+    export GIT_PATH="$(./files/file-copy.bat)"
     cp -f "$GIT_PATH/usr/bin/*.dll" /usr/bin/ # DLL files required for GNU Bash
+    if [ $? -eq 0 ]; then
+        echo "Files copied successfully"
+    else
+        echo "Error copying files"
+        exit 1
+    fi
     cp -f "$GIT_PATH/usr/bin/bash.exe" /usr/bin/gbash.exe
+    if [ $? -eq 0 ]; then
+        echo "Files copied successfully"
+    else
+        echo "Error copying files"
+        exit 1
+    fi
     cp -f ./files/gnu-bash-wrapper.bat /usr/bin/gnu-bash-wrapper.bat
+    if [ $? -eq 0 ]; then
+        echo "Files copied successfully"
+    else
+        echo "Error copying files"
+        exit 1
+    fi
 else
     echo "Winget not found"
     exit 1

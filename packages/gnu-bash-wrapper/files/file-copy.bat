@@ -11,4 +11,8 @@ if not defined GIT_PATH (
     exit /b 1
 )
 
-echo "%GIT_PATH%"
+rem Replace backslashes with slashes in GIT_PATH
+
+set "GIT_PATH=!GIT_PATH:\=/!"
+
+echo !GIT_PATH!
