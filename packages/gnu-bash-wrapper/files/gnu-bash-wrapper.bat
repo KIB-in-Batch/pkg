@@ -1,5 +1,7 @@
 @echo off
 
+setlocal enabledelayedexpansion
+
 for /f "tokens=2,*" %%a in ('reg query "HKCU\Software\GitForWindows" /v InstallPath 2^>nul') do set GIT_PATH=%%b
 if not defined GIT_PATH (
     for /f "tokens=2,*" %%a in ('reg query "HKLM\Software\GitForWindows" /v InstallPath 2^>nul') do set GIT_PATH=%%b
