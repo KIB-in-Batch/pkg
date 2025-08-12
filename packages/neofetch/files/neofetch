@@ -1565,7 +1565,10 @@ get_packages() {
             has swupd      && tot swupd bundle-list --quiet
             has pisi       && tot pisi li
             has pacstall   && tot pacstall -L
+            export OLD_ROOT="$ROOT"
+            export ROOT="1"
             has kib-pkg    && tot kib-pkg list # Added by package maintainer
+            export ROOT="$OLD_ROOT"
 
             # Using the dnf package cache is much faster than rpm.
             if has dnf && type -p sqlite3 >/dev/null && [[ -f /var/cache/dnf/packages.db ]]; then
