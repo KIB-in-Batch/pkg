@@ -18,13 +18,11 @@ if [ $? -eq 0 ]; then
     echo "Copying files..."
     rm -rf /usr/bin/gnu-bash-wrapper.bat
     export GIT_PATH="$(./files/file-copy.bat)"
-    cp -f "$GIT_PATH/usr/bin/*.dll" /usr/bin/ # DLL files required for GNU Bash
-    if [ $? -eq 0 ]; then
-        echo "Files copied successfully"
-    else
-        echo "Error copying files"
-        exit 1
-    fi
+    # Loop for each Msys dll file in $GIT_PATH/usr/bin
+    for dll in $(find "$GIT_PATH/usr/bin" -type f -name "*.dll"); do
+        # Copy the dll file to /usr/bin
+        cp -f "$dll" /usr/bin/ && echo "Copied $dll to /usr/bin" || echo "Failed to copy $dll to /usr/bin" && exit 1
+    done
     cp -f "$GIT_PATH/usr/bin/bash.exe" /usr/bin/gbash.exe
     if [ $? -eq 0 ]; then
         echo "Files copied successfully"
