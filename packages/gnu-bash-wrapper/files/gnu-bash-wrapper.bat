@@ -20,4 +20,4 @@ set "HOME=!HOME:\=/!"
 
 set "BASH_ENV=!rcfilepath!"
 
-"!bash_path!" %*
+"!bash_path!" --rcfile "!rcfilepath!" %*
