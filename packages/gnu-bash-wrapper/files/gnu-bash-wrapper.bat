@@ -13,4 +13,10 @@ if not defined GIT_PATH (
 
 set "bash_path=!GIT_PATH!\bin\bash.exe"
 
-"!bash_path!" %*
+set "rcfilepath=%USERPROFILE%/kali/etc/.kibenv"
+
+rem Replace backslashes with slashes in rcfilepath
+
+set "rcfilepath=!rcfilepath:\=/!"
+
+"!bash_path!" --rcfile !rcfilepath! %*
