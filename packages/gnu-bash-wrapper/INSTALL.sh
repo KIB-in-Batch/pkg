@@ -16,13 +16,11 @@ if [ $? -eq 0 ]; then
     echo "Git installed successfully"
     # Begin copying files
     echo "Copying files..."
+    rm -rf /usr/bin/gnu-bash-wrapper.bat
+    export GIT_PATH="$(./files/file-copy.bat)"
+    cp -f "$GIT_PATH/usr/bin/*.dll" /usr/bin/ # DLL files required for GNU Bash
+    cp -f "$GIT_PATH/usr/bin/bash.exe" /usr/bin/gbash.exe
     cp -f ./files/gnu-bash-wrapper.bat /usr/bin/gnu-bash-wrapper.bat
-    if [ $? -ne 0 ]; then
-        echo "Could not copy files because no"
-        exit 1
-    else
-        echo "Could copy files"
-    fi
 else
     echo "Winget not found"
     exit 1

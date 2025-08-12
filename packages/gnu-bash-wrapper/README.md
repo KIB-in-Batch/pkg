@@ -10,3 +10,11 @@ Run this in your Kali in Batch terminal:
 sudo kib-pkg update
 sudo kib-pkg install gnu-bash-wrapper
 ```
+
+## Usage
+
+Run this in your Kali in Batch terminal:
+
+```bash
+gnu-bash-wrapper
+```
