@@ -16,6 +16,14 @@ if [ $? -eq 0 ]; then
     echo "Git installed successfully"
     # Begin copying files
     echo "Copying files..."
+    mkdir -p /usr/lib/gnu-bash-wrapper
+    cp -f ./files/rcfile.sh /usr/lib/gnu-bash-wrapper/
+    if [ $? -eq 0 ]; then
+        echo "File copied successfully"
+    else
+        echo "Error copying files"
+        exit 1
+    fi
     rm -rf /usr/bin/gnu-bash-wrapper.bat
     export GIT_PATH="$(./files/file-copy.bat)"
     # Loop for each Msys dll file in $GIT_PATH/usr/bin
@@ -25,7 +33,7 @@ if [ $? -eq 0 ]; then
     done
     cp -f "$GIT_PATH/usr/bin/bash.exe" /usr/bin/gbash.exe
     if [ $? -eq 0 ]; then
-        echo "Files copied successfully"
+        echo "File copied successfully"
     else
         echo "Error copying files"
         exit 1
