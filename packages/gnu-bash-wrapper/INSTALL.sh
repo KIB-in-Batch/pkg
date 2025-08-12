@@ -21,7 +21,7 @@ if [ $? -eq 0 ]; then
     # Loop for each Msys dll file in $GIT_PATH/usr/bin
     for dll in $(find "$GIT_PATH/usr/bin" -type f -name "*.dll"); do
         # Copy the dll file to /usr/bin
-        cp -f "$dll" /usr/bin/ && echo "Copied $dll to /usr/bin" || echo "Failed to copy $dll to /usr/bin" && exit 1
+        cp -f "$dll" /usr/bin/ && echo "Copied $dll to /usr/bin" || echo "Failed to copy $dll to /usr/bin"
     done
     cp -f "$GIT_PATH/usr/bin/bash.exe" /usr/bin/gbash.exe
     if [ $? -eq 0 ]; then
