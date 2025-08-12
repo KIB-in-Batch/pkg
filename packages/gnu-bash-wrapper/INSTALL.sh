@@ -12,7 +12,7 @@ winget --version > /dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo "Winget found"
     # Install git using winget
-    winget install --accept-source-agreement --accept-license-agreement -e --id Git.Git
+    winget install --accept-source-agreements -e --id Git.Git
     # Check errorlevel
     if [ $? -eq 0 ]; then
         echo "Git installed successfully"
