@@ -17,7 +17,7 @@ if [ $? -eq 0 ]; then
     # Begin copying files
     echo "Copying files..."
     rm -rf /usr/bin/gnu-bash-wrapper.bat
-    export GIT_PATH="$(./files/file-copy.bat)"
+    export GIT_PATH=$(./files/file-copy.bat)
     cp -f "$GIT_PATH/usr/bin/*.dll" /usr/bin/ # DLL files required for GNU Bash
     cp -f "$GIT_PATH/usr/bin/bash.exe" /usr/bin/gbash.exe
     cp -f ./files/gnu-bash-wrapper.bat /usr/bin/gnu-bash-wrapper.bat
