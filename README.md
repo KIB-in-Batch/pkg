@@ -14,6 +14,7 @@ package-name/
     LICENSE.txt
     DEPENDENCIES.txt # Every line is a dependency name
     VERSION.txt # Has to be a semantic version (e.g. 2.5.8)
+    DESCRIPTION.txt # Optional, kib-pkg info displays the Lorem Ipsum text if not provided
     files/
         # Files the package can access without downloading remote files go here
         # For example, a shell script
