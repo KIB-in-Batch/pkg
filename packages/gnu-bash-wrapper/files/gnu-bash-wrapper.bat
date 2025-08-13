@@ -17,13 +17,13 @@ set "newargs="
 set skipnext=0
 for %%A in (%*) do (
     if !skipnext! equ 1 (
-        echo Skipping --rcfile argument: %%~A
+        echo Skipping --rcfile argument: %%A
         set skipnext=0
-    ) else if /i "%%~A"=="--rcfile" (
+    ) else if /i "%%A"=="--rcfile" (
         echo Skipping --rcfile
         set skipnext=1
     ) else (
-        set "newargs=!newargs! %%~A"
+        set "newargs=!newargs! %%A"
     )
 )
 
