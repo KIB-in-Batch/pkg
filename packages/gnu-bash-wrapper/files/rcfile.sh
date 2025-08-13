@@ -1,11 +1,9 @@
 command_not_found_handle() {
-    "$1.bat" "${@:2}"
-    if [ $? -ne 0 ]; then
-        busybox "$1" "${@:2}"
-        if [ $? -ne 0 ]; then
-            echo "Command not found: $1"
-            exit 127
-        fi
+    if command -v "$1.bat" >/dev/null 2>&1; then
+        "$1.bat" "${@:2}"
+    else
+        echo "$1: command not found"
+        return 127
     fi
 }
 
