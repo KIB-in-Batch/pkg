@@ -1,10 +1,10 @@
 # file
 
-The classic UNIX `file` utility is now a package for `Kali in Batch`!
+The classic UNIX `file` utility is now a package for `KIB in Batch`!
 
 ## Installation
 
-Open a `Kali in Batch` shell and run the following commands:
+Open a `KIB in Batch` shell and run the following commands:
 
 ```bash
 sudo kib-pkg update

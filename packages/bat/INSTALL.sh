@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## INSTALL SCRIPT FOR KALI IN BATCH BAT PACKAGE ##
+## INSTALL SCRIPT FOR KIB in Batch BAT PACKAGE ##
 # Compiles bat, a clone of cat with syntax highlighting from source and installs it.
 # Meant to be used with kib-pkg, not directly here!
 

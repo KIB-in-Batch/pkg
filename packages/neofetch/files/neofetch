@@ -8040,7 +8040,7 @@ odhdddddddo- `ddddh+-``....-+hdddddds.
 EOF
         ;;
 
-        "Kali in Batch"*)
+        "KIB in Batch"*)
             set_colors 4 6 5
             read -rd '' ascii_data <<'EOF'
 ${c1} #    # ### ######  

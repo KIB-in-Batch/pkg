@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## INSTALL.sh for neofetch
-## To install, run this in your Kali in Batch terminal:
+## To install, run this in your KIB in Batch terminal:
 ## $ sudo kib-pkg update
 ## $ sudo kib-pkg install neofetch
 

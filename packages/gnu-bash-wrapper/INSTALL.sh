@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## INSTALL.sh for gnu-bash-wrapper
-## To install, run this in your Kali in Batch terminal:
+## To install, run this in your KIB in Batch terminal:
 ## $ sudo kib-pkg update
 ## $ sudo kib-pkg install gnu-bash-wrapper
 
