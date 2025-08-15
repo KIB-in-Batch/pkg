@@ -1,6 +1,6 @@
 # KIB in Batch Packages
 
-This is the official package repository for "[KIB in Batch](https://github.com/Kali-in-Batch/kali-in-batch)".
+This is the official package repository for "[KIB in Batch](https://github.com/KIB-in-Batch/kali-in-batch)".
 
 ## Adding a new package
 
@@ -15,6 +15,7 @@ package-name/
     DEPENDENCIES.txt # Every line is a dependency name
     VERSION.txt # Has to be a semantic version (e.g. 2.5.8)
     DESCRIPTION.txt # Optional, kib-pkg info displays the Lorem Ipsum text if not provided
+    MAXVER.txt # Maximum major version of KIB in Batch the package can be installed on (e.g. 9)
     files/
         # Files the package can access without downloading remote files go here
         # For example, a shell script
@@ -26,7 +27,7 @@ We generously provide a hello-world package, which is structured like what you s
 
 If you don't know how to create a pull request, follow these steps:
 
-* [Fork this repository](https://github.com/Kali-in-Batch/pkg/fork).
+* [Fork this repository](https://github.com/KIB-in-Batch/pkg/fork).
 * Clone the repository to your local machine:
 
 ```bash
@@ -78,6 +79,6 @@ git commit -a -m "Added package-name" # Replace package-name with your package n
 git push origin package-name # Replace package-name with your package name
 ```
 
-* Create a pull request to the [original repository](https://github.com/Kali-in-Batch/pkg) to merge your branch into main.
+* Create a pull request to the [original repository](https://github.com/KIB-in-Batch/pkg) to merge your branch into main.
 
 * Alternatively, you can use the GitHub web interface.
