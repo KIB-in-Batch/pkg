@@ -9,4 +9,10 @@ command_not_found_handle() {
 
 kibenv="$USERPROFILE/kali/etc/.kibenv"
 
+# Check if kibenv doesn't exist
+
+if [ ! -f "$kibenv" ]; then
+    kibenv="$USERPROFILE/kib/etc/.kibenv"
+fi
+
 source "$kibenv"

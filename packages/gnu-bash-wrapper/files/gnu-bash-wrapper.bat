@@ -1,14 +1,20 @@
 @echo off
 setlocal enabledelayedexpansion
 
+set "kaliinusrprofile=kali"
+
 rem Read kaliroot
 set /p kaliroot=<"%APPDATA%\kali_in_batch\kaliroot.txt"
+if not exist "%APPDATA%\kali_in_batch\kaliroot.txt" (
+    set /p kaliroot=<"%APPDATA%\kib_in_batch\kibroot.txt"
+    set "kaliinusrprofile=kib"
+) 
 set "bash_path=%kaliroot%\usr\bin\gbash.exe"
 
 rem Paths
-set "rcfilepath=%USERPROFILE%\kali\usr\lib\gnu-bash-wrapper\rcfile.sh"
+set "rcfilepath=%USERPROFILE%\%kaliinusrprofile%\usr\lib\gnu-bash-wrapper\rcfile.sh"
 set "rcfilepath=%rcfilepath:\=/%"
-set "HOME=%USERPROFILE%\kali\home\%USERNAME%"
+set "HOME=%USERPROFILE%\%kaliinusrprofile%\home\%USERNAME%"
 set "HOME=%HOME:\=/%"
 set "BASH_ENV=%rcfilepath%"
 
