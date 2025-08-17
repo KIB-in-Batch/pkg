@@ -28,10 +28,15 @@ if [ $? -eq 0 ]; then
     rm -rf /usr/bin/gbash.exe
     export GIT_PATH="$(./files/file-copy.bat)"
     # Loop for each Msys dll file in $GIT_PATH/usr/bin
-    for dll in $(find "$GIT_PATH/usr/bin" -type f -name "*.dll"); do
+    find "$GIT_PATH/usr/bin" -type f -name "*.dll" -print0 | while IFS= read -r -d '' dll; do
         # Copy the dll file to /usr/bin
-        cp -f "$dll" /usr/bin/ && echo "Copied $dll to /usr/bin" || echo "Failed to copy $dll to /usr/bin"
+        if cp -f "$dll" /usr/bin/; then
+            echo "Copied $dll to /usr/bin"
+        else
+            echo "Failed to copy $dll to /usr/bin"
+        fi
     done
+
     cp -f "$GIT_PATH/usr/bin/bash.exe" /usr/bin/gbash.exe
     if [ $? -eq 0 ]; then
         echo "File copied successfully"
