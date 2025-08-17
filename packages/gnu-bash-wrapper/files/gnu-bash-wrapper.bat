@@ -4,10 +4,11 @@ setlocal enabledelayedexpansion
 set "kaliinusrprofile=kali"
 
 rem Read kaliroot
-set /p kaliroot=<"%APPDATA%\kali_in_batch\kaliroot.txt" >nul 2>&1
 if not exist "%APPDATA%\kali_in_batch\kaliroot.txt" (
     set /p kaliroot=<"%APPDATA%\kib_in_batch\kibroot.txt" >nul 2>&1
     set "kaliinusrprofile=kib"
+) else (
+    set /p kaliroot=<"%APPDATA%\kali_in_batch\kaliroot.txt" >nul 2>&1
 ) 
 set "bash_path=%kaliroot%\usr\bin\gbash.exe"
 

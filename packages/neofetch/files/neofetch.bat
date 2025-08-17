@@ -4,10 +4,11 @@ setlocal enabledelayedexpansion
 
 rem Fetch kaliroot from %APPDATA%\kali_in_batch\kaliroot.txt
 
-set /p kaliroot=<"%APPDATA%\kali_in_batch\kaliroot.txt" >nul 2>&1
 if not exist "%APPDATA%\kali_in_batch\kaliroot.txt" (
     set /p kaliroot=<"%APPDATA%\kib_in_batch\kibroot.txt" >nul 2>&1
     set "kaliinusrprofile=kib"
+) else (
+    set /p kaliroot=<"%APPDATA%\kali_in_batch\kaliroot.txt" >nul 2>&1
 ) 
 
 echo "!kaliroot!\usr\bin\gnu-bash-wrapper.bat" "!kaliroot!\usr\lib\neofetch\neofetch" %* > "!kaliroot!\tmp\neofetchlaunch.tmp"
