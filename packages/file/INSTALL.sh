@@ -6,7 +6,7 @@ kaliroot=$(cat "$APPDATA/kali_in_batch/kaliroot.txt")
 # Check if "$APPDATA/kali_in_batch/kaliroot.txt" doesn't exist
 
 if [ ! -f "$APPDATA/kali_in_batch/kaliroot.txt" ]; then
-    kaliroot=$(cat "$APPDATA/kali_in_batch/kibroot.txt")
+    kaliroot=$(cat "$APPDATA/kib_in_batch/kibroot.txt")
 fi
 
 # Create /usr/lib/file
