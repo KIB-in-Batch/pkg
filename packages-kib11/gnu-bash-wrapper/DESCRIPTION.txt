@@ -1,0 +1,1 @@
+A wrapper for GNU Bash. It is meant to be used as a dependency for packages like Neofetch.

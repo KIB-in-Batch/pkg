@@ -1,0 +1,1 @@
+Init system for KIB. Uninstalling this will be catastrophic!
