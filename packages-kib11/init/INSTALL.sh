@@ -6,6 +6,7 @@
 ## $ sudo kib-pkg upgrade init
 
 mkdir -p /sys/kib
-for f in ./files/*; do
+find "./files" -print0 |
+while IFS= read -r -d '' f; do
     cp -rf "$f" /sys/kib/
 done
