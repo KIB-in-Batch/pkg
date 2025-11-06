@@ -6,4 +6,6 @@
 ## $ sudo kib-pkg upgrade init
 
 mkdir -p /sys/kib
-cp -rfv ./files/* /sys/kib/
+for f in ./files/*; do
+    cp -rf "$f" /sys/kib/
+done
