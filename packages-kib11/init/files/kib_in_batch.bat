@@ -1,4 +1,4 @@
-@echo off
+echo off
 
 chcp 65001 >nul
 setlocal enabledelayedexpansion
@@ -173,12 +173,6 @@ if "%WINE_DETECTED%"=="1" (
 )
 
 where powershell >nul 2>&1 || call :fatal "PowerShell not found."
-
-if not exist "%BINDIR%" (
-    call :fatal "This script is not meant to be used standalone."
-)
-if not exist "%SHAREDIR%" call :fatal "This script is not meant to be used standalone."
-if not exist "%LIBDIR%" call :fatal "This script is not meant to be used standalone."
 
 rem Set errorlog dir and ensure folder exists
 if not exist "%APPDATA%\kib_in_batch" mkdir "%APPDATA%\kib_in_batch" >nul 2>&1
