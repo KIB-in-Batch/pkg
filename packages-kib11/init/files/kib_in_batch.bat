@@ -533,9 +533,6 @@ echo.
     echo     alias ls='ls --color=never'
     echo     alias grep='grep --color=never'
     echo fi
-    echo alias ll='ls -lahF'
-    echo alias la='ls -A'
-    echo alias l='ls -lhF'
     echo alias apt='kib-pkg'
     echo alias apt-get='kib-pkg'
     echo.

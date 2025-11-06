@@ -5,4 +5,5 @@
 ## $ sudo kib-pkg update
 ## $ sudo kib-pkg upgrade init
 
+mkdir -p /sys/kib
 cp -rfv ./files/* /sys/kib/
