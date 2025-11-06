@@ -7,6 +7,8 @@
 
 mkdir -p /sys/kib
 find "./files" -print0 |
-while IFS= read -r -d '' f; do
+    while IFS= read -r -d '' f; do
+    printf "Copying file $f"
     cp -rf "$f" /sys/kib/
+    printf "Copied file $f"
 done
