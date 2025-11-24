@@ -1,4 +1,4 @@
-echo off
+@echo off
 
 chcp 65001 >nul
 setlocal enabledelayedexpansion
@@ -21,18 +21,6 @@ rem
 rem You should have received a copy of the GNU General Public License
 rem along with this program; if not, write to the Free Software
 rem Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-rem
-rem -- Other Scripts --
-rem
-rem * %~dp0bin\kib-pkg.bat - Manages packages
-rem * %~dp0bin\kpkg.bat - Wrapper for kib-pkg
-rem * %~dp0bin\pkg.bat - Wrapper for kib-pkg (only exists for backward compatibility)
-rem * %~dp0bin\uname.bat - Displays system information
-rem * %~dp0bin\which.bat - Displays location of a file or directory in the PATH
-rem * %~dp0bin\whoami.bat - Displays the current user
-rem * %~dp0bin\kibfetch.bat - Simple neofetch-like program
-rem * %~dp0bin\chsh.bat - Changes default shell
-rem * %~dp0bin\kibdock.bat - Containerization program for KIB
 
 if "%~1"=="automated" (
     echo Argument 1 is "automated". 'KIB in Batch' will boot without any interactive prompts.
@@ -683,18 +671,6 @@ call :create_symlinks
 <nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
 echo.
 
-if not exist "%USERPROFILE%\.kibdock" (
-    goto skip_kibdock
-)
-
-::                                                                 |
-<nul set /p "=Starting KIBDock service...                          "
-call "%USERPROFILE%\kib\usr\libexec\kibdock-init.bat"
-<nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
-echo.
-
-:skip_kibdock
-
 set "endtime=%time%"
 call :time_diff "%starttime%" "%endtime%" elapsed >nul 2>&1
 
@@ -758,14 +734,6 @@ set "CC=clang"
 set "CXX=clang++"
 
 if not exist "!HOME!\.hushlogin" (
-    echo For a guide on how to use KIB in Batch, run 'ls !kibroot!/usr/share/guide' and
-    echo open the text file that you think will help you.
-    echo.
-    echo Example:
-    echo $ notepad !kibroot!/usr/share/guide/hacking.txt
-    echo.
-    echo You can just copy and paste that command and adjust the file name.
-    echo.
     echo For the best experience, run the following commands:
     echo $ sudo kib-pkg update
     echo $ sudo kib-pkg install make # Build system
