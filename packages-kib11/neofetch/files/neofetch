@@ -28,9 +28,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-alias uname="uname.bat"
-
-version=7.1.0-kib-12
+version=7.1.0-kib-13
 
 # Fallback to a value of '5' for shells which support bash
 # but do not set the 'BASH_' shell variables (osh).
@@ -4895,7 +4893,7 @@ dynamic_prompt() {
 cache_uname() {
     # Cache the output of uname so we don't
     # have to spawn it multiple times.
-    IFS=" " read -ra uname <<< "$(uname -srm)"
+    IFS=" " read -ra uname <<< "$(uname.bat -srm)"
 
     kernel_name="${uname[0]}"
     kernel_version="${uname[1]}"
