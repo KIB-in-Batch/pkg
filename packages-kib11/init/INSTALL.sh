@@ -6,4 +6,5 @@
 ## $ sudo kib-pkg upgrade init
 
 mkdir -p /sys/kib
-cp -rf ./files/ /sys/kib/files/
+cp -rfv ./files/ /sys/kib/files/
+echo "Upgraded successfully. Please relaunch KIB in Batch."
