@@ -173,17 +173,8 @@ if not exist "%APPDATA%\kib_in_batch" set "missing=1"
 if not exist "%KIB_HOME_DIR%" set "missing=1"
 
 if defined missing (
-    cls
-    if "%~1"=="automated" (
-        set "kibroot=Z:"
-        echo Creating directories...
-        call :create_dir_tree "%USERPROFILE%\kib"
-        echo Setting up kibroot...
-        subst "!kibroot!" "%USERPROFILE%\kib"
-        echo !kibroot!>"%APPDATA%\kib_in_batch\kibroot.txt" 2>nul
-    ) else (
-        goto dumbshell
-    )
+    echo Use the installer
+    exit /b 1
 )
 
 rem Ensure kibroot loaded
@@ -194,194 +185,6 @@ if not defined kibroot (
 if exist "%~dp0kibenv" copy "%~dp0kibenv" "!kibroot!\etc\.kibenv" /y >nul 2>>"%ERRLOG%"
 
 goto boot
-
-:setup
-
-echo Setup is starting...
-
-color 17
-cls
-
-echo 'KIB in Batch' Setup
-echo ====================
-
-echo.
-echo   Welcome to Setup.
-echo.
-echo   The Setup program installs 'KIB in Batch' on your computer.
-echo.
-echo     * To install now, press 1.
-echo.
-echo     * To quit Setup, press 2.
-echo.
-
-choice /c 12 /n /m ""
-
-if errorlevel 2 goto __setup_end
-if errorlevel 1 goto __setup_install
-
-:__setup_install
-
-cls
-
-echo 'KIB in Batch' Setup
-echo ====================
-
-echo.
-echo   Setup needs to know if you want to install Nmap and Neovim.
-echo.
-echo     * If you do, press y.
-echo.
-echo     * If you don't, press n.
-echo.
-
-choice /c yn /n /m ""
-
-if errorlevel 2 goto __setup_kibroot
-
-if errorlevel 1 (
-    goto __setup_install_pkgs
-)
-
-:__setup_install_pkgs
-
-cls
-
-echo 'KIB in Batch' Setup
-echo ====================
-
-echo.
-
-echo   Setup is installing Nmap and Neovim...
-echo.
-
-call :get_deps
-color 17
-
-goto __setup_kibroot
-
-:__setup_kibroot
-
-color 17
-
-cls
-
-echo 'KIB in Batch' Setup
-echo ====================
-
-echo.
-
-echo   Setup is setting up the kibroot drive...
-echo.
-
-if not exist "%APPDATA%\kib_in_batch" (
-    mkdir "%APPDATA%\kib_in_batch" >nul 2>&1
-)
-
-set /p "kibroot=Please enter the kibroot drive letter (e.g., Z:): "
-if exist "!kibroot!" (
-    echo Drive exists.
-    echo Press any key to continue...
-    pause >nul
-    goto __setup_kibroot
-)
-
-if not exist "%USERPROFILE%\kib" (
-    mkdir "%USERPROFILE%\kib" >nul 2>&1
-)
-
-subst "!kibroot!" "%USERPROFILE%\kib" >nul 2>&1
-if errorlevel 1 (
-    goto __setup_kibroot
-)
-echo !kibroot!>"%APPDATA%\kib_in_batch\kibroot.txt" 2>nul
-
-goto __setup_dirs
-
-:__setup_dirs
-
-color 17
-
-cls
-
-echo 'KIB in Batch' Setup
-echo ====================
-
-echo.
-
-echo   Setup is setting up the directories inside !kibroot!...
-echo.
-
-call :create_dir_tree "%USERPROFILE%\kib"
-
-color 17
-
-:__setup_end
-
-color 17
-
-cls
-
-echo 'KIB in Batch' Setup
-echo ====================
-
-echo.
-
-echo   Setup has now installed 'KIB in Batch' on your computer.
-
-echo.
-
-echo   Press any key to continue booting...
-
-pause >nul
-
-color 07
-
-goto boot
-
-:dumbshell
-
-echo Type help for built-in commands.
-echo Run "setup" to start the installer.
-
-goto dumbshell_loop
-
-:dumbshell_loop
-
-set "command="
-
-set "PROMPT=%COLOR_RED%%USERNAME%%COLOR_RESET%@%COMPUTERNAME%#"
-
-set /p "command=!PROMPT! "
-
-if "!command!"=="help" (
-    call :info "Built-in commands:"
-    echo ------------------
-    echo echo [text]              Print text to the screen
-    echo exit                     Exit the shell
-    echo setup                    Install 'KIB in Batch'
-    echo clear                    Clear the screen
-    echo whoami                   Get your username
-    echo hostname                 Get your hostname
-) else if "!command!"=="clear" (
-    cls
-) else if "!command!"=="setup" (
-    goto setup
-) else if /i "!command:~0,5!"=="echo " (
-    echo !command:~5!
-) else if /i "!command!"=="exit" (
-    exit /b
-) else if "!command!"=="whoami" (
-    echo %USERNAME%
-) else if "!command!"=="hostname" (
-    echo %COMPUTERNAME%
-) else (
-    if not "!command!"=="" (
-        echo %COLOR_ERROR%!command!: command not found%COLOR_RESET%
-    )
-)
-
-goto dumbshell_loop
 
 :wipe
 call :info "Wiping kib rootfs..."
@@ -405,22 +208,18 @@ set /a lines=0
 for /f "usebackq delims=" %%L in ("%ERRLOG%") do set /a lines+=1
 if %lines% geq 100 echo.>"%ERRLOG%"
 
-if not exist "%KIB_HOME_DIR%" (
-    echo Your installation is broken
-    goto live_shell
-)
-if not exist "%APPDATA%\kib_in_batch" (
-    echo Your installation is broken
-    goto live_shell
-)
 for /f "delims=" %%i in ('powershell -command "[System.Environment]::OSVersion.Version.ToString()"') do set kernelversion=%%i
 
 echo.
-echo Welcome to KIB in Batch 11.0.2 ^(%PROCESSOR_ARCHITECTURE%^)
+echo Welcome to KIB in Batch 11.0.3 ^(%PROCESSOR_ARCHITECTURE%^)
 echo Booting system...
 echo ------------------------------------------------
 
-if not exist "%APPDATA%\kib_in_batch\kibroot.txt" goto boot
+if not exist "%APPDATA%\kib_in_batch\kibroot.txt" (
+   echo Installation broken. Wiping...
+   goto wipe
+   exit /b 1
+)
 set "starttime=%time%"
 
 rem Validate kibroot looks like a drive letter
@@ -606,11 +405,11 @@ echo.
 
 (
     echo NAME="KIB in Batch"
-    echo VERSION="11.0.2"
+    echo VERSION="11.0.3"
     echo ID=kibbatch
     echo ID_LIKE=linux
-    echo VERSION_ID="11.0.2"
-    echo PRETTY_NAME="KIB in Batch 11.0.2"
+    echo VERSION_ID="11.0.3"
+    echo PRETTY_NAME="KIB in Batch 11.0.3"
     echo ANSI_COLOR="0;36"
     echo HOME_URL="https://kib-in-batch.github.io"
     echo SUPPORT_URL="https://github.com/KIB-in-Batch/kib-in-batch/discussions"
@@ -641,7 +440,7 @@ if errorlevel 1 (
 )
 
 if exist "%APPDATA%\kib_in_batch\VERSION.txt" del "%APPDATA%\kib_in_batch\VERSION.txt"
-echo 11.0.2>"%APPDATA%\kib_in_batch\VERSION.txt"
+echo 11.0.3>"%APPDATA%\kib_in_batch\VERSION.txt"
 
 ::                                                                 |
 <nul set /p "=Starting Nmap service...                             "
@@ -690,7 +489,7 @@ if "%~1"=="automated" (
 
 :login
 echo.
-echo KIB in Batch 11.0.2
+echo KIB in Batch 11.0.3
 echo Kernel %kernelversion% on an %PROCESSOR_ARCHITECTURE%
 echo.
 echo Users on this system: %USERNAME%, root

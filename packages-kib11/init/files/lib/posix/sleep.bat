@@ -120,4 +120,3 @@ if %~1 gtr 99999 (
 ) else (
     timeout /t %~1 /nobreak >nul
 )
-
