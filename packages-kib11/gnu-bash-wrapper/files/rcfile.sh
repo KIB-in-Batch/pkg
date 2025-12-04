@@ -16,3 +16,4 @@ if [ ! -f "$kibenv" ]; then
 fi
 
 source "$kibenv"
+alias uname="uname.bat"
