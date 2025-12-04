@@ -29,8 +29,8 @@ goto start
 
 rem Check if ROOT is set to 0
 if "%ROOT%" == "0" (
-    echo !COLOR_ERROR!Please log in as the root user to run %~0, or you can:!COLOR_RESET!
-    echo 1. Run %~0 with sudo !COLOR_ITALIC!^(e.g. sudo %~0 %*!COLOR_RESET!^)
+    echo !COLOR_ERROR!Please log in as the root user to run kib-pkg, or you can:!COLOR_RESET!
+    echo 1. Run kib-pkg with sudo !COLOR_ITALIC!^(e.g. sudo kib-pkg %*!COLOR_RESET!^)
     echo 2. Use the su command to become root, then run unsu after you don't need root anymore.
     exit /b 1
 )
@@ -69,12 +69,12 @@ if "%*"=="" (
 
 :noargs
 
-echo !COLOR_HEADER!Usage: %~0 (install/remove/upgrade/search/list/update/help/info)!COLOR_RESET!
+echo !COLOR_HEADER!Usage: kib-pkg (install/remove/upgrade/search/list/update/help/info)!COLOR_RESET!
 exit /b 64
 
 :help
 
-echo !COLOR_HEADER!Usage: %~0 (install/remove/upgrade/search/list/update/help)!COLOR_RESET!
+echo !COLOR_HEADER!Usage: kib-pkg (install/remove/upgrade/search/list/update/help)!COLOR_RESET!
 echo.
 echo !COLOR_UNDERLINE!Commands:!COLOR_RESET!
 echo.
@@ -128,7 +128,7 @@ if "%1"=="install" (
     goto info
 ) else (
     echo !COLOR_ERROR!Invalid argument: !COLOR_PACKAGE!%1!COLOR_RESET!
-    echo Run '!COLOR_COMMAND!%~0 help!COLOR_RESET!' for usage information.
+    echo Run '!COLOR_COMMAND!kib-pkg help!COLOR_RESET!' for usage information.
     exit /b 1
 )
 
@@ -163,14 +163,14 @@ if "!kib-pkg_to_check!"=="" (
 )
 
 if not exist "%APPDATA%\kib_in_batch\packages.list" (
-    echo !COLOR_ERROR!Package database not found. Please run: !COLOR_COMMAND!%~0 update!COLOR_RESET!
+    echo !COLOR_ERROR!Package database not found. Please run: !COLOR_COMMAND!kib-pkg update!COLOR_RESET!
     exit /b 1
 )
 
 findstr /c:"!kib-pkg_to_check!" "%APPDATA%\kib_in_batch\packages.list" >nul
 if %errorlevel% neq 0 (
-    echo !COLOR_ERROR!Package !COLOR_PACKAGE!!%~0_to_check!!COLOR_RESET!!COLOR_ERROR! is not available in the repository.!COLOR_RESET!
-    echo Try running '!COLOR_COMMAND!%~0 search !kib-pkg_to_check!!COLOR_RESET!' to find similar packages.
+    echo !COLOR_ERROR!Package !COLOR_PACKAGE!!kib-pkg_to_check!!COLOR_RESET!!COLOR_ERROR! is not available in the repository.!COLOR_RESET!
+    echo Try running '!COLOR_COMMAND!kib-pkg search !kib-pkg_to_check!!COLOR_RESET!' to find similar packages.
     exit /b 1
 )
 goto :eof
@@ -411,7 +411,7 @@ exit /b
 rem Check if package is installed
 call :check_package_installed "%2"
 if %errorlevel% neq 0 (
-    echo !COLOR_ERROR!Package !COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_ERROR! is not installed. Install it by running: !COLOR_COMMAND!%~0 install %2!COLOR_RESET!
+    echo !COLOR_ERROR!Package !COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_ERROR! is not installed. Install it by running: !COLOR_COMMAND!kib-pkg install %2!COLOR_RESET!
     exit /b 1
 )
 
@@ -514,7 +514,7 @@ exit /b 1
 rem Check if package is installed
 call :check_package_installed "%2"
 if %errorlevel% neq 0 (
-    echo !COLOR_ERROR!Package !COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_ERROR! is not installed. Install it by running: !COLOR_COMMAND!%~0 install %2!COLOR_RESET!
+    echo !COLOR_ERROR!Package !COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_ERROR! is not installed. Install it by running: !COLOR_COMMAND!kib-pkg install %2!COLOR_RESET!
     exit /b 1
 )
 
@@ -573,7 +573,7 @@ exit /b
 rem Search for packages
 echo !COLOR_INFO!Searching for packages containing "!COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_INFO!"...!COLOR_RESET!
 if not exist "%APPDATA%\kib_in_batch\packages.list" (
-    echo !COLOR_ERROR!Package cache not found. Please run: !COLOR_COMMAND!%~0 update!COLOR_RESET!
+    echo !COLOR_ERROR!Package cache not found. Please run: !COLOR_COMMAND!kib-pkg update!COLOR_RESET!
     exit /b 1
 )
 
