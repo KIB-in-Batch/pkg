@@ -327,7 +327,7 @@ if not exist "!kibroot!\tmp\!kib-pkg_name!_package\MAXVER.txt" (
     exit /b 1
 ) else (
     set /p maxver=<"!kibroot!\tmp\!kib-pkg_name!_package\MAXVER.txt"
-    if "!maxver!" lss 11 (
+    if not !maxver! geq 11 (
         echo !COLOR_ERROR!Package !COLOR_PACKAGE!%1!COLOR_RESET! cannot run on this version of KIB in Batch.!COLOR_RESET!
         exit /b 1
     )
