@@ -80,7 +80,7 @@ jobs:
 
       # Commit compiled Bash
       - name: Commit compiled Bash to build/bash
-        shell: bash
+        shell: C:\cygwin\bin\bash.exe --login -o igncr -eo pipefail '{0}'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
