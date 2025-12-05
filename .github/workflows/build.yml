@@ -44,6 +44,7 @@ jobs:
           cd "$SRC"
           
           ./configure --prefix="$DEST" --without-termcap
+          rm -f lib/termcap/*.o
           make
           make install
 
