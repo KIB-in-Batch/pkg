@@ -211,7 +211,7 @@ if %lines% geq 100 echo.>"%ERRLOG%"
 for /f "delims=" %%i in ('powershell -command "[System.Environment]::OSVersion.Version.ToString()"') do set kernelversion=%%i
 
 echo.
-echo Welcome to KIB in Batch 11.0.4 ^(%PROCESSOR_ARCHITECTURE%^)
+echo Welcome to KIB in Batch 11.0.5 ^(%PROCESSOR_ARCHITECTURE%^)
 echo Booting system...
 echo ------------------------------------------------
 
@@ -405,11 +405,11 @@ echo.
 
 (
     echo NAME="KIB in Batch"
-    echo VERSION="11.0.4"
+    echo VERSION="11.0.5"
     echo ID=kibbatch
     echo ID_LIKE=linux
-    echo VERSION_ID="11.0.4"
-    echo PRETTY_NAME="KIB in Batch 11.0.4"
+    echo VERSION_ID="11.0.5"
+    echo PRETTY_NAME="KIB in Batch 11.0.5"
     echo ANSI_COLOR="0;36"
     echo HOME_URL="https://kib-in-batch.github.io"
     echo SUPPORT_URL="https://github.com/KIB-in-Batch/kib-in-batch/discussions"
@@ -440,7 +440,7 @@ if errorlevel 1 (
 )
 
 if exist "%APPDATA%\kib_in_batch\VERSION.txt" del "%APPDATA%\kib_in_batch\VERSION.txt"
-echo 11.0.4>"%APPDATA%\kib_in_batch\VERSION.txt"
+echo 11.0.5>"%APPDATA%\kib_in_batch\VERSION.txt"
 
 ::                                                                 |
 <nul set /p "=Starting Nmap service...                             "
@@ -461,7 +461,7 @@ if errorlevel 1 (
 )
 echo.
 
-<nul set /p "=Setting up BusyBox...                                "
+<nul set /p "=Setting up symlinks...                                "
 call :create_symlinks
 <nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
 echo.
@@ -477,7 +477,6 @@ if "%~1"=="automated" (
     set "HOME=!kibroot!\home\%USERNAME%"
     set "LOGGED_IN_AS_ROOT=1"
     set "ROOT=0"
-    echo Connecting to Bash service...
     goto startup
 ) else (
     goto login
@@ -485,7 +484,7 @@ if "%~1"=="automated" (
 
 :login
 echo.
-echo KIB in Batch 11.0.4
+echo KIB in Batch 11.0.5
 echo Kernel %kernelversion% on an %PROCESSOR_ARCHITECTURE%
 echo.
 echo Users on this system: %USERNAME%, root
@@ -497,14 +496,12 @@ if "%loginkibusername%"=="%USERNAME%" (
     set "LOGGED_IN_AS_ROOT=0"
     set "HOME=!kibroot!\home\%USERNAME%"
     echo %COLOR_SUCCESS%User found%COLOR_RESET%
-    echo Connecting to Bash service...
 ) else if "%loginkibusername%"=="root" (
     set "ROOT=1"
     set "USER=root"
     set "LOGGED_IN_AS_ROOT=1"
     set "HOME=!kibroot!\root"
     echo %COLOR_SUCCESS%User found%COLOR_RESET%
-    echo Connecting to Bash service...
 ) else (
     echo %COLOR_ERROR%User not found%COLOR_RESET%
     echo Press any key to try again...
@@ -528,6 +525,17 @@ set "HOST=x86_64-pc-cygwin"
 set "CC=clang"
 set "CXX=clang++"
 
+if not exist "%APPDATA%\kib_in_batch\has_installed_base_pkgs" (
+   echo Installing base packages...
+   set "oldroot=!ROOT!"
+   set "ROOT=1"
+   call "!kibroot!\usr\bin\kib-pkg.bat" update
+   call "!kibroot!\usr\bin\kib-pkg.bat" install bash --auto
+   set "ROOT=!oldroot!"
+   echo Done.
+   echo.
+)
+
 if not exist "!HOME!\.hushlogin" (
     echo For the best experience, run the following commands:
     echo $ sudo kib-pkg update
@@ -542,9 +550,6 @@ if not exist "!HOME!\.hushlogin" (
 
 cd /d "!HOME!"
 
-set "busybox_path=!kibroot!\usr\bin\busybox.exe"
-"!busybox_path!" bash -l
-
 goto :eof
 
 :create_symlinks
@@ -552,7 +557,7 @@ goto :eof
 for %%f in ("%USERPROFILE%\kib\usr\bin\*.bat") do (
     (
         echo #!/bin/bash
-        echo "%%~f"
+        echo "/bin/%%~nf.bat"
         echo exit $?
     ) > "%USERPROFILE%\kib\usr\bin\%%~nf"
 )

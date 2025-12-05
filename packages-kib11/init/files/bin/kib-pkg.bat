@@ -21,6 +21,12 @@ rem You should have received a copy of the GNU General Public License
 rem along with this program; if not, write to the Free Software
 rem Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+if "%~3" == "--auto" (
+    set "automatic=1"
+) else (
+    set "automatic="
+)
+
 call "%USERPROFILE%\colors.bat"
 
 goto start
@@ -336,6 +342,7 @@ if not exist "!kibroot!\tmp\!kib-pkg_name!_package\MAXVER.txt" (
 rem Run INSTALL.sh if it exists
 if exist "!kibroot!\tmp\!kib-pkg_name!_package\INSTALL.sh" (
 
+if not defined automatic (
     rem Display install script contents
     echo !COLOR_INFO!I will show install script contents. Press any key to continue...!COLOR_RESET!
     pause >nul
@@ -348,18 +355,19 @@ if exist "!kibroot!\tmp\!kib-pkg_name!_package\INSTALL.sh" (
         echo !COLOR_INFO!Installation cancelled.!COLOR_RESET!
         exit /b 0
     )
+)
 
     echo !COLOR_INFO!Running install script for !COLOR_PACKAGE!!kib-pkg_name!!COLOR_RESET!...
     
     rem Check if bash exists
-    if not exist "!kibroot!\usr\bin\bash.exe" (
-        echo !COLOR_ERROR!Bash not found!COLOR_RESET!
+    if not exist "!kibroot!\usr\bin\busybox.exe" (
+        echo !COLOR_ERROR!BusyBox not found!COLOR_RESET!
         exit /b 1
     ) else (
-        set bash_path=!kibroot!\usr\bin\bash.exe
+        set bash_path=!kibroot!\usr\bin\busybox.exe
     )
     
-    "!bash_path!" -c "cd !kibroot!/tmp/!kib-pkg_name!_package; !kibroot!/tmp/!kib-pkg_name!_package/INSTALL.sh"
+    "!bash_path!" bash -c "cd !kibroot!/tmp/!kib-pkg_name!_package; !kibroot!/tmp/!kib-pkg_name!_package/INSTALL.sh"
     
     if !errorlevel! neq 0 (
         echo !COLOR_ERROR!Error: Install script returned error code !errorlevel!!COLOR_RESET!
