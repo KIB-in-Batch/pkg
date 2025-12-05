@@ -1,4 +1,4 @@
-name: Build Bash on Windows (Cygwin)
+name: Build Bash
 
 on:
   push:
