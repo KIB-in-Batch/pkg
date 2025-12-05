@@ -80,6 +80,7 @@ jobs:
           # Compile with -fcommon flag to fix linker errors
           ./configure CFLAGS="-fcommon" --prefix="$DEST" --without-termcap
           make
+          make install
 
       # Commit compiled Bash
       - name: Commit compiled Bash to build/bash
