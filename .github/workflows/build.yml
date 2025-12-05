@@ -1,0 +1,68 @@
+name: Build Bash on Windows (Cygwin)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-bash-windows:
+    runs-on: windows-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Configure git for line endings
+      - name: Configure Git
+        run: git config --global core.autocrlf input
+
+      # Install Cygwin with required packages
+      - name: Install Cygwin
+        uses: cygwin/cygwin-install-action@master
+        with:
+          packages: "gcc-core gcc-g++ make autoconf automake tar curl"
+
+      # Download Bash source
+      - name: Download Bash source
+        shell: bash
+        run: |
+          curl -L -O https://ftp.gnu.org/gnu/bash/bash-5.1.tar.gz
+          tar xzf bash-5.1.tar.gz
+
+      # Compile and install Bash directly into repo folder
+      - name: Compile and install Bash
+        shell: bash
+        run: |
+          DEST="$GITHUB_WORKSPACE/packages-kib11/bash/files"
+          mkdir -p "$DEST"
+          cd bash-5.1
+          ./configure --prefix="$DEST"
+          make
+          make install
+
+      # Commit compiled Bash to a branch, overwriting if exists
+      - name: Commit compiled Bash to build/bash
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          # Fetch remote branch if it exists
+          git fetch origin build/bash || echo "Branch doesn't exist yet"
+
+          # Create or reset local branch
+          git checkout -B build/bash origin/build/bash || git checkout -B build/bash
+
+          # Add compiled files
+          git add packages-kib11/bash/files
+
+          # Commit changes
+          git commit -m "Update compiled Bash for Windows [skip ci]" || echo "No changes to commit"
+
+          # Push branch, force update if necessary
+          git push -u origin build/bash --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

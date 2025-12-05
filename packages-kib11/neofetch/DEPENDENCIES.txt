@@ -1,1 +1,1 @@
-gnu-bash-wrapper
+bash
