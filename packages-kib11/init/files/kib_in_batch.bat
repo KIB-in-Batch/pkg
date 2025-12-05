@@ -461,11 +461,7 @@ if errorlevel 1 (
 )
 echo.
 
-::                                                                 |
 <nul set /p "=Setting up BusyBox...                                "
-
-call :download_busybox "!kibroot!\usr\bin\busybox.exe"
-set "busybox_path=!kibroot!\usr\bin\busybox.exe"
 call :create_symlinks
 <nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
 echo.
@@ -546,27 +542,19 @@ if not exist "!HOME!\.hushlogin" (
 
 cd /d "!HOME!"
 
+set "busybox_path=!kibroot!\usr\bin\busybox.exe"
 "!busybox_path!" bash -l
 
 goto :eof
 
 :create_symlinks
 
-rem This subroutine creates symlinks in /bin
-
-if not defined busybox_path (
-    echo Undefined variable busybox_path
-    exit /b 1
-)
-
-rem Loop for each BusyBox applet
-
-for /f "tokens=*" %%a in ('!busybox_path! --list ^| findstr /i /v "busybox" ^| findstr /i /v "make"') do (
-    set "applet=%%a"
-    set "applet_path=%USERPROFILE%\kib\usr\bin\!applet!"
-    if not exist "!applet_path!.bat" (
-        mklink "!applet_path!.exe" "!busybox_path!" >nul 2>&1
-    )
+for %%f in ("%USERPROFILE%\kib\usr\bin\*.bat") do (
+    (
+        echo #!/bin/bash
+        echo "%%~f"
+        echo exit $?
+    ) > "%USERPROFILE%\kib\usr\bin\%%~nf"
 )
 
 for %%f in ("%USERPROFILE%\kib\usr\bin\*.exe") do (
