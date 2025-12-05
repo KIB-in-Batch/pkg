@@ -13,54 +13,83 @@ jobs:
       CYGWIN: winsymlinks:native
 
     steps:
+      # Configure git for line endings and safe directory
       - name: Configure Git
         shell: bash
         run: |
           git config --global core.autocrlf input
+          # Add workspace as safe directory (Windows path)
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
+      # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Install Cygwin
       - name: Install Cygwin
         uses: cygwin/cygwin-install-action@master
         with:
           packages: "gcc-core gcc-g++ make autoconf automake tar curl"
 
+      # Download Bash source
       - name: Download Bash source
         shell: C:\cygwin\bin\bash.exe --login -o igncr -eo pipefail '{0}'
         run: |
+          # Navigate to workspace in Cygwin format
+          cd "$(cygpath "$GITHUB_WORKSPACE")"
+          pwd  # Debug: show current directory
+          
           curl -L https://ftp.gnu.org/gnu/bash/bash-5.1.tar.gz -o bash-5.1.tar.gz
           tar xzf bash-5.1.tar.gz
+          
+          # Verify extraction
+          echo "Extracted contents:"
+          ls -la
+          echo "Bash directory:"
+          ls -d bash-5.1*
 
+      # Compile and install Bash
       - name: Compile and install Bash
         shell: C:\cygwin\bin\bash.exe --login -o igncr -eo pipefail '{0}'
         run: |
+          # Clean PATH to prioritize Cygwin tools
           export PATH=/usr/bin:$(cygpath ${SYSTEMROOT})/system32
           
-          DEST=$(cygpath "$GITHUB_WORKSPACE/packages-kib11/bash/files")
+          # Convert workspace to Cygwin path
+          WORKSPACE_CYG=$(cygpath "$GITHUB_WORKSPACE")
+          cd "$WORKSPACE_CYG"
+          
+          # Verify source directory exists
+          if [ ! -d "bash-5.1" ]; then
+            echo "ERROR: bash-5.1 directory not found!"
+            echo "Current directory: $(pwd)"
+            ls -la
+            exit 1
+          fi
+          
+          # Set destination path (Cygwin format)
+          DEST="$WORKSPACE_CYG/packages-kib11/bash/files"
           mkdir -p "$DEST"
           
-          SRC=$(cygpath "$GITHUB_WORKSPACE/bash-5.1")
-          cd "$SRC"
+          cd bash-5.1
           
+          # Compile with -fcommon flag to fix linker errors
           ./configure CFLAGS="-fcommon" --prefix="$DEST" --without-termcap
           make
           make install
 
+      # Commit compiled Bash
       - name: Commit compiled Bash to build/bash
         shell: bash
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-
+          
           git fetch origin build/bash || echo "Branch doesn't exist yet"
-
           git checkout -B build/bash origin/build/bash || git checkout -B build/bash
-
+          
           git add packages-kib11/bash/files
-
           git commit -m "Update compiled Bash for Windows [skip ci]" || echo "No changes to commit"
-
           git push -u origin build/bash --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
