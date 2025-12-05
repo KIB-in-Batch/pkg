@@ -83,14 +83,27 @@ jobs:
         run: |
           WORKSPACE_CYG=$(cygpath "$GITHUB_WORKSPACE")
           cd "$WORKSPACE_CYG"
+      
+          # Configure Git
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          
-          git fetch origin build/bash || echo "Branch doesn't exist yet"
-          git checkout -B build/bash origin/build/bash || git checkout -B build/bash
-          
+      
+          # Fetch remote branch if it exists
+          git fetch origin build/bash || echo "Branch build/bash does not exist yet"
+      
+          if git show-ref --verify --quiet refs/remotes/origin/build/bash; then
+              git checkout -B build/bash origin/build/bash
+          else
+              git checkout -B build/bash
+          fi
+      
+          # Stage files to commit
           git add packages-kib11/bash/files
-          git commit -m "Update compiled Bash for Windows [skip ci]" || echo "No changes to commit"
-          git push -u origin build/bash --force
+      
+          # Commit changes if any
+          git diff-index --quiet HEAD || git commit -m "Update compiled Bash for Windows [skip ci]"
+      
+          # Push branch to remote using GITHUB_TOKEN
+          git push -u https://x-access-token:${GITHUB_TOKEN}@github.com/KIB-in-Batch/pkg.git build/bash --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
