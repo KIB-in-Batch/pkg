@@ -29,7 +29,7 @@ jobs:
       - name: Download Bash source
         shell: bash
         run: |
-          curl -L -O https://ftp.gnu.org/gnu/bash/bash-5.1.tar.gz
+          curl -L https://ftp.gnu.org/gnu/bash/bash-5.1.tar.gz -o bash-5.1.tar.gz
           tar xzf bash-5.1.tar.gz
 
       # Compile and install Bash directly into repo folder
