@@ -32,13 +32,18 @@ jobs:
           curl -L https://ftp.gnu.org/gnu/bash/bash-5.1.tar.gz -o bash-5.1.tar.gz
           tar xzf bash-5.1.tar.gz
 
-      # Compile and install Bash directly into repo folder
       - name: Compile and install Bash
         shell: bash
         run: |
-          DEST="$GITHUB_WORKSPACE/packages-kib11/bash/files"
+          set -e
+          # Convert workspace path to Cygwin path
+          DEST=$(cygpath "$GITHUB_WORKSPACE/packages-kib11/bash/files")
           mkdir -p "$DEST"
-          cd bash-5.1
+          
+          # Convert source path
+          SRC=$(cygpath "$GITHUB_WORKSPACE/bash-5.1")
+          cd "$SRC"
+          
           ./configure --prefix="$DEST"
           make
           make install
