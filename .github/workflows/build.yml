@@ -33,7 +33,7 @@ jobs:
           tar xzf bash-5.1.tar.gz
 
       - name: Compile and install Bash
-        shell: bash --noprofile --norc -exo pipefail '{0}'
+        shell: bash --noprofile --norc -o igncr -eo pipefail '{0}'
         run: |
           # Convert workspace path to Cygwin path
           DEST=$(cygpath "$GITHUB_WORKSPACE/packages-kib11/bash/files")
