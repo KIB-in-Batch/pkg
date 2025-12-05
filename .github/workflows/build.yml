@@ -76,12 +76,13 @@ jobs:
           # Compile with -fcommon flag to fix linker errors
           ./configure CFLAGS="-fcommon" --prefix="$DEST" --without-termcap
           make
-          make install
 
       # Commit compiled Bash
       - name: Commit compiled Bash to build/bash
         shell: C:\cygwin\bin\bash.exe --login -o igncr -eo pipefail '{0}'
         run: |
+          WORKSPACE_CYG=$(cygpath "$GITHUB_WORKSPACE")
+          cd "$WORKSPACE_CYG"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           
