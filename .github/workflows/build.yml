@@ -33,7 +33,7 @@ jobs:
           tar xzf bash-5.1.tar.gz
 
       - name: Compile and install Bash
-        shell: bash
+        shell: bash --noprofile --norc -eo pipefail '{0}'
         run: |
           set -e
           # Convert workspace path to Cygwin path
