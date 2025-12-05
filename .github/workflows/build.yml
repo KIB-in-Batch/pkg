@@ -43,7 +43,7 @@ jobs:
           SRC=$(cygpath "$GITHUB_WORKSPACE/bash-5.1")
           cd "$SRC"
           
-          ./configure --prefix="$DEST"
+          ./configure --prefix="$DEST" --without-termcap
           make
           make install
 
