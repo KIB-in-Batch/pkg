@@ -431,7 +431,7 @@ if exist "%APPDATA%\kib_in_batch\VERSION.txt" del "%APPDATA%\kib_in_batch\VERSIO
 echo 11.0.6>"%APPDATA%\kib_in_batch\VERSION.txt"
 
 <nul set /p "=Downloading BusyBox... "
-curl -fsl -o "!kibroot!\usr\bin\busybox.exe" "%BUSYBOX_URL%"
+curl -fsL -o "!kibroot!\usr\bin\busybox.exe" "%BUSYBOX_URL%"
 if errorlevel 1 (
     <nul set /p "=failed"
     echo.
