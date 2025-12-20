@@ -110,16 +110,6 @@ rem Usage: call :copy_tree "src" "dst"
 xcopy "%~1\*" "%~2\" /s /y >nul 2>>"%ERRLOG%"
 goto :eof
 
-:download_busybox
-rem Usage: call :download_busybox "target_path"
-set "_target=%~1"
-curl -L -o "%_target%" "%BUSYBOX_URL%" -# >nul 2>>"%ERRLOG%"
-if errorlevel 1 (
-    echo %COLOR_ERROR%Failed to download BusyBox to %_target%.%COLOR_RESET%
-)
-set "busybox_path=%_target%"
-goto :eof
-
 :install_if_missing_winget
 rem Usage: call :install_if_missing_winget "binaryname" "winget-id"
 where %~1 >nul 2>>"%ERRLOG%"
@@ -211,7 +201,7 @@ if %lines% geq 100 echo.>"%ERRLOG%"
 for /f "delims=" %%i in ('powershell -command "[System.Environment]::OSVersion.Version.ToString()"') do set kernelversion=%%i
 
 echo.
-echo Welcome to KIB in Batch 11.0.5 ^(%PROCESSOR_ARCHITECTURE%^)
+echo Welcome to KIB in Batch 11.0.6 ^(%PROCESSOR_ARCHITECTURE%^)
 echo Booting system...
 echo ------------------------------------------------
 
@@ -236,8 +226,7 @@ if not exist !kibroot! (
     )
 )
 
-::                                                                 |
-<nul set /p "=Checking if rescue is required...                    "
+<nul set /p "=Checking if rescue is required... "
 
 set "rescue_required=0"
 for %%d in (etc tmp usr bin "usr\bin" "usr\local" "usr\share" "usr\lib" home "home\%USERNAME%" "usr\libexec" var root lib "usr\include") do (
@@ -248,11 +237,10 @@ if %rescue_required%==1 (
     call :create_dir_tree "!kibroot!"
 )
 
-<nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
+<nul set /p "=ok"
 echo.
 
-::                                                                 |
-<nul set /p "=Copying core files...                                "
+<nul set /p "=Copying core files... "
 
 (
     echo #!/bin/bash
@@ -405,11 +393,11 @@ echo.
 
 (
     echo NAME="KIB in Batch"
-    echo VERSION="11.0.5"
+    echo VERSION="11.0.6"
     echo ID=kibbatch
     echo ID_LIKE=linux
-    echo VERSION_ID="11.0.5"
-    echo PRETTY_NAME="KIB in Batch 11.0.5"
+    echo VERSION_ID="11.0.6"
+    echo PRETTY_NAME="KIB in Batch 11.0.6"
     echo ANSI_COLOR="0;36"
     echo HOME_URL="https://kib-in-batch.github.io"
     echo SUPPORT_URL="https://github.com/KIB-in-Batch/kib-in-batch/discussions"
@@ -431,39 +419,35 @@ if not exist "!kibroot!\root\.bashrc" (
 )
 
 if errorlevel 1 (
-    <nul set /p "=[ %COLOR_ERROR%FAILED%COLOR_RESET% ]"
+    <nul set /p "=failed"
     echo.
     echo Note: It is very likely that the script did not fail to copy files.
 ) else (
-    <nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
+    <nul set /p "=ok"
     echo.
 )
 
 if exist "%APPDATA%\kib_in_batch\VERSION.txt" del "%APPDATA%\kib_in_batch\VERSION.txt"
-echo 11.0.5>"%APPDATA%\kib_in_batch\VERSION.txt"
+echo 11.0.6>"%APPDATA%\kib_in_batch\VERSION.txt"
 
-::                                                                 |
-<nul set /p "=Starting Nmap service...                             "
-where nmap >nul 2>>"%ERRLOG%"
+<nul set /p "=Downloading BusyBox... "
+curl -fsl -o "!kibroot!\usr\bin\busybox.exe" "%BUSYBOX_URL%"
 if errorlevel 1 (
-    <nul set /p "=[ %COLOR_ERROR%FAILED%COLOR_RESET% ]"
+    <nul set /p "=failed"
+    echo.
+    if not exist "!kibroot!\usr\bin\busybox.exe" (
+        exit /b 1
+    )
 ) else (
-    <nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
+    <nul set /p "=ok"
+    echo.
 )
-echo.
 
-<nul set /p "=Starting Neovim service...                           "
-where nvim >nul 2>>"%ERRLOG%"
-if errorlevel 1 (
-    <nul set /p "=[ %COLOR_ERROR%FAILED%COLOR_RESET% ]"
-) else (
-    <nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
-)
-echo.
+set "busybox_path=!kibroot!\usr\bin\busybox.exe"
 
-<nul set /p "=Setting up symlinks...                                "
+<nul set /p "=Setting up symlinks... "
 call :create_symlinks
-<nul set /p "=[ %COLOR_SUCCESS%OK%COLOR_RESET% ]"
+<nul set /p "=ok"
 echo.
 
 set "endtime=%time%"
@@ -484,7 +468,7 @@ if "%~1"=="automated" (
 
 :login
 echo.
-echo KIB in Batch 11.0.5
+echo KIB in Batch 11.0.6
 echo Kernel %kernelversion% on an %PROCESSOR_ARCHITECTURE%
 echo.
 echo Users on this system: %USERNAME%, root
@@ -525,34 +509,13 @@ set "HOST=x86_64-pc-cygwin"
 set "CC=clang"
 set "CXX=clang++"
 
-if not exist "%APPDATA%\kib_in_batch\has_installed_base_pkgs" (
-   echo Installing base packages...
-   set "oldroot=!ROOT!"
-   set "ROOT=1"
-   call "!kibroot!\usr\bin\kib-pkg.bat" update
-   call "!kibroot!\usr\bin\kib-pkg.bat" install busybox --auto
-   set "ROOT=!oldroot!"
-   echo Done.
-   echo.
-)
-
-if not exist "!HOME!\.hushlogin" (
-    echo For the best experience, run the following commands:
-    echo $ sudo kib-pkg update
-    echo $ sudo kib-pkg install make # Build system
-    echo $ sudo kib-pkg install file # Classic UNIX utility
-    echo $ sudo kib-pkg install neofetch # Thorough system information tool written in Bash 3.2+
-    echo $ notepad ~/.bashrc # Customize your shell
-    echo.
-    echo To disable this message, create a file called .hushlogin in your home directory.
-    echo.
-)
-
 cd /d "!HOME!"
+
+%busybox_path% bash -l
 
 goto :eof
 
-:create_symlinks
+:createsymlinks
 
 for %%f in ("%USERPROFILE%\kib\usr\bin\*.bat") do (
     (
