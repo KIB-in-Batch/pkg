@@ -530,7 +530,7 @@ if not exist "%APPDATA%\kib_in_batch\has_installed_base_pkgs" (
    set "oldroot=!ROOT!"
    set "ROOT=1"
    call "!kibroot!\usr\bin\kib-pkg.bat" update
-   call "!kibroot!\usr\bin\kib-pkg.bat" install bash --auto
+   call "!kibroot!\usr\bin\kib-pkg.bat" install busybox --auto
    set "ROOT=!oldroot!"
    echo Done.
    echo.

@@ -342,23 +342,23 @@ if not exist "!kibroot!\tmp\!kib-pkg_name!_package\MAXVER.txt" (
 rem Run INSTALL.sh if it exists
 if exist "!kibroot!\tmp\!kib-pkg_name!_package\INSTALL.sh" (
 
-if not defined automatic (
-    rem Display install script contents
-    echo !COLOR_INFO!I will show install script contents. Press any key to continue...!COLOR_RESET!
-    pause >nul
-    type "!kibroot!\tmp\!kib-pkg_name!_package\INSTALL.sh"
+    if not defined automatic (
+        rem Display install script contents
+        echo !COLOR_INFO!I will show install script contents. Press any key to continue...!COLOR_RESET!
+        pause >nul
+        type "!kibroot!\tmp\!kib-pkg_name!_package\INSTALL.sh"
 
-    echo !COLOR_INFO!Do you want to run the install script? [Y/N]!COLOR_RESET!
-    choice /c yn /n /m ""
+        echo !COLOR_INFO!Do you want to run the install script? [Y/N]!COLOR_RESET!
+        choice /c yn /n /m ""
 
-    if errorlevel 2 (
-        echo !COLOR_INFO!Installation cancelled.!COLOR_RESET!
-        exit /b 0
+        if errorlevel 2 (
+            echo !COLOR_INFO!Installation cancelled.!COLOR_RESET!
+            exit /b 0
+        )
     )
-)
 
     echo !COLOR_INFO!Running install script for !COLOR_PACKAGE!!kib-pkg_name!!COLOR_RESET!...
-    
+
     rem Check if bash exists
     if not exist "!kibroot!\usr\bin\busybox.exe" (
         echo !COLOR_ERROR!BusyBox not found!COLOR_RESET!
@@ -366,9 +366,9 @@ if not defined automatic (
     ) else (
         set bash_path=!kibroot!\usr\bin\busybox.exe
     )
-    
+
     "!bash_path!" bash -c "cd !kibroot!/tmp/!kib-pkg_name!_package; !kibroot!/tmp/!kib-pkg_name!_package/INSTALL.sh"
-    
+
     if !errorlevel! neq 0 (
         echo !COLOR_ERROR!Error: Install script returned error code !errorlevel!!COLOR_RESET!
         exit /b 1
@@ -443,14 +443,14 @@ if %errorlevel% equ 0 (
 
         echo !COLOR_INFO!Do you want to run the uninstall script? [Y/N]!COLOR_RESET!
         choice /c yn /n /m ""
-    
+
         if errorlevel 2 (
             echo !COLOR_INFO!Uninstallation cancelled.!COLOR_RESET!
             exit /b 0
         )
 
         echo !COLOR_INFO!Running uninstall script for !COLOR_PACKAGE!%2!COLOR_RESET!...
-        
+
         rem Find bash interpreter
         if exist "!kibroot!\usr\bin\bash.exe" (
             set bash_path=!kibroot!\usr\bin\bash.exe
@@ -460,7 +460,7 @@ if %errorlevel% equ 0 (
             echo !COLOR_ERROR!Unable to find bash interpreter.!COLOR_RESET!
             exit /b 1
         )
-        
+
         "!bash_path!" "!kibroot!\tmp\%2_uninstall.sh"
     )
 ) else (
