@@ -87,6 +87,7 @@ echo.
 echo   !COLOR_COMMAND!install!COLOR_RESET!         - Install a package by name.
 echo   !COLOR_COMMAND!remove!COLOR_RESET!          - Remove an installed package by name.
 echo   !COLOR_COMMAND!upgrade!COLOR_RESET!         - Upgrade an installed package to the latest version.
+echo   !COLOR_COMMAND!upgrade-all!COLOR_RESET!     - Upgrade all packages.
 echo   !COLOR_COMMAND!search!COLOR_RESET!          - Search for packages in the package database.
 echo   !COLOR_COMMAND!list!COLOR_RESET!            - List all installed packages.
 echo   !COLOR_COMMAND!list-available!COLOR_RESET!  - List all available packages.
@@ -116,6 +117,12 @@ if "%1"=="install" (
         exit /b 1
     )
     goto upgrade
+) else if "%1"=="upgrade-all" (
+    if "%2"=="" (
+        echo !COLOR_ERROR!Package name is required.!COLOR_RESET!
+        exit /b 1
+    )
+    goto upgrade_all
 ) else if "%1"=="help" (
     goto help
 ) else if "%1"=="search" (
@@ -516,6 +523,28 @@ rem Compare patch version
 if !new_patch! gtr !curr_patch! exit /b 0
 
 exit /b 1
+
+:upgrade_all
+set "INSTALLED_LIST=%APPDATA%\kib_in_batch\installed.packages.list"
+
+echo !COLOR_INFO!Upgrading all installed packages...!COLOR_RESET!
+
+rem Check if installed package list exists
+if not exist "%INSTALLED_LIST%" (
+    echo !COLOR_ERROR!No installed packages list found.!COLOR_RESET!
+    exit /b 0
+)
+
+rem Loop through each installed package
+for /f "usebackq delims=" %%P in ("%INSTALLED_LIST%") do (
+    rem Skip empty lines
+    if not "%%P"=="" (
+        call :upgrade something %%P
+    )
+)
+
+echo !COLOR_SUCCESS!All packages upgraded.!COLOR_RESET!
+exit /b
 
 :upgrade
 
