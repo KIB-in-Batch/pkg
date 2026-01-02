@@ -118,10 +118,6 @@ if "%1"=="install" (
     )
     goto upgrade
 ) else if "%1"=="upgrade-all" (
-    if "%2"=="" (
-        echo !COLOR_ERROR!Package name is required.!COLOR_RESET!
-        exit /b 1
-    )
     goto upgrade_all
 ) else if "%1"=="help" (
     goto help
