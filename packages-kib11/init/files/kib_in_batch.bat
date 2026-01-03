@@ -525,6 +525,10 @@ for %%f in ("%USERPROFILE%\kib\usr\bin\*.bat") do (
     ) > "%USERPROFILE%\kib\usr\bin\%%~nf"
 )
 
+for %%f in (`%busybox_path% --list`) do (
+	mklink "%USERPROFILE%\kib\usr\bin\%%f.exe" "%busybox_path%" >nul 2>&1
+)
+
 for %%f in ("%USERPROFILE%\kib\usr\bin\*.exe") do (
     mklink "%USERPROFILE%\kib\usr\bin\%%~nf" "%%f" >nul 2>&1
 )
