@@ -201,7 +201,7 @@ if %lines% geq 100 echo.>"%ERRLOG%"
 for /f "delims=" %%i in ('powershell -command "[System.Environment]::OSVersion.Version.ToString()"') do set kernelversion=%%i
 
 echo.
-echo Welcome to KIB in Batch 11.0.14 ^(%PROCESSOR_ARCHITECTURE%^)
+echo Welcome to KIB in Batch 11.0.15 ^(%PROCESSOR_ARCHITECTURE%^)
 echo Booting system...
 echo ------------------------------------------------
 
@@ -393,11 +393,11 @@ echo.
 
 (
     echo NAME="KIB in Batch"
-    echo VERSION="11.0.14"
+    echo VERSION="11.0.15"
     echo ID=kibbatch
     echo ID_LIKE=linux
-    echo VERSION_ID="11.0.14"
-    echo PRETTY_NAME="KIB in Batch 11.0.14"
+    echo VERSION_ID="11.0.15"
+    echo PRETTY_NAME="KIB in Batch 11.0.15"
     echo ANSI_COLOR="0;36"
     echo HOME_URL="https://kib-in-batch.github.io"
     echo SUPPORT_URL="https://github.com/KIB-in-Batch/kib-in-batch/discussions"
@@ -428,7 +428,7 @@ if errorlevel 1 (
 )
 
 if exist "%APPDATA%\kib_in_batch\VERSION.txt" del "%APPDATA%\kib_in_batch\VERSION.txt"
-echo 11.0.14>"%APPDATA%\kib_in_batch\VERSION.txt"
+echo 11.0.15>"%APPDATA%\kib_in_batch\VERSION.txt"
 
 <nul set /p "=Downloading BusyBox... "
 curl -s -L -o "!kibroot!\usr\bin\busybox.exe" "%BUSYBOX_URL%"
@@ -468,7 +468,7 @@ if "%~1"=="automated" (
 
 :login
 echo.
-echo KIB in Batch 11.0.14
+echo KIB in Batch 11.0.15
 echo Kernel %kernelversion% on an %PROCESSOR_ARCHITECTURE%
 echo.
 echo Users on this system: %USERNAME%, root
