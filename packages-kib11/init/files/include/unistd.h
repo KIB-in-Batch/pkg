@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <windows.h>
 
 typedef long ssize_t;
 typedef unsigned int mode_t;
