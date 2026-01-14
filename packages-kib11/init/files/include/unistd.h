@@ -1,59 +1,62 @@
-#ifndef _UNISTD_H
-#define _UNISTD_H
+#ifndef UNISTD_H_
+#define UNISTD_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*
+ * Thanks to Microsoft, this header file is mostly a stub.
+ */
 
+#include <fcntl.h>
+#include <io.h>
+#include <process.h>
+#include <direct.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 #include <sys/types.h>
-#include <stddef.h>
 
-/* DLL import/export */
-#ifdef KIBPOSIX_BUILD_DLL
-#define KIBPOSIX_API __declspec(dllexport)
-#else
-#define KIBPOSIX_API __declspec(dllimport)
+#define getcwd _getcwd
+#define read _read
+#define write _write
+#define close _close
+#define open _open
+#define dup _dup
+#define lseek _lseek
+#define pipe _pipe
+#define dup2 _dup2
+#define access _access
+#define chdir _chdir
+#define mkdir _mkdir
+#define rmdir _rmdir
+#define unlink _unlink
+#define isatty _isatty
+
+#ifndef F_OK
+#define F_OK 0
+#endif
+#ifndef R_OK
+#define R_OK 4
+#endif
+#ifndef W_OK
+#define W_OK 2
+#endif
+#ifndef X_OK
+#define X_OK R_OK
 #endif
 
-/* Standard file descriptors */
-#define STDIN_FILENO  0
+#ifndef STDIN_FILENO
+#define STDIN_FILENO 0
+#endif
+#ifndef STDOUT_FILENO
 #define STDOUT_FILENO 1
+#endif
+#ifndef STDERR_FILENO
 #define STDERR_FILENO 2
-
-/* lseek() constants */
-#define SEEK_SET 0
-#define SEEK_CUR 1
-#define SEEK_END 2
-
-/* Variables exported from kibposix.dll */
-
-KIBPOSIX_API int optind;
-KIBPOSIX_API char *optarg;
-KIBPOSIX_API int opterr;
-KIBPOSIX_API int optopt;
-
-/* Functions exported from kibposix.dll */
-KIBPOSIX_API int posix_close(int fd);
-KIBPOSIX_API ssize_t posix_read(int fd, void *buf, size_t count);
-KIBPOSIX_API ssize_t posix_write(int fd, const void *buf, size_t count);
-KIBPOSIX_API int chdir(const char *path);
-KIBPOSIX_API char *getcwd(char *buf, size_t size);
-KIBPOSIX_API int mkdir(const char *pathname, mode_t mode);
-KIBPOSIX_API int rmdir(const char *pathname);
-KIBPOSIX_API int execl(const char *path, const char *arg, ...);
-KIBPOSIX_API pid_t getpid(void);
-KIBPOSIX_API unsigned int sleep(unsigned int seconds);
-KIBPOSIX_API int unlink(const char *pathname);
-KIBPOSIX_API int getopt(int argc, char * const argv[], const char *optstring);
-KIBPOSIX_API void posix_exit(int status);
-
-#define close posix_close
-#define read posix_read
-#define write posix_write
-#define _exit posix_exit
-
-#ifdef __cplusplus
-}
 #endif
 
-#endif /* _UNISTD_H */
+#define getpid _getpid
+#define getppid _getppid
+
+#define sleep(x) _sleep(x)
+
+#define ftruncate _chsize
+
+#endif // UNISTD_H_
