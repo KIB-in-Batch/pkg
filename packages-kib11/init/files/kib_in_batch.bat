@@ -90,12 +90,12 @@ if not exist "%_root%\usr\include" mkdir "%_root%\usr\include" >nul 2>>"%ERRLOG%
 if not exist "%_root%\bin" mklink /d "%_root%\bin" "%_root%\usr\bin" >nul 2>>"%ERRLOG%"
 if errorlevel 1 (
     echo %COLOR_ERROR%Could not create symlinks. Please run as admin or enable developer mode in settings.%COLOR_RESET%
-    exit /b 1
+    exit 1
 )
 if not exist "%_root%\lib" mklink /d "%_root%\lib" "%_root%\usr\lib" >nul 2>>"%ERRLOG%"
 if errorlevel 1 (
     echo %COLOR_ERROR%Could not create symlinks. Please run as admin or enable developer mode in settings.%COLOR_RESET%
-    exit /b 1
+    exit 1
 )
 if not exist "%_root%\home" mkdir "%_root%\home" >nul 2>>"%ERRLOG%"
 if not exist "%_root%\tmp" mkdir "%_root%\tmp" >nul 2>>"%ERRLOG%"
