@@ -12,6 +12,15 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <stddef.h>
+#include <stdint.h>
+
+typedef long ssize_t;
+typedef unsigned int mode_t;
+typedef long off_t;
+typedef int pid_t;
+typedef int uid_t;
+typedef int gid_t;
 
 #define getcwd _getcwd
 #define read _read
