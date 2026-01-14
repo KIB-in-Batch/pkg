@@ -105,7 +105,7 @@ goto :eof
 
 :version
 
-echo Uname for KIB in Batch 11.0.11
+echo Uname for KIB in Batch 11.0.12
 echo This is GPL-2.0-only licensed free software. There is NO WARRANTY.
 goto :eof
 
