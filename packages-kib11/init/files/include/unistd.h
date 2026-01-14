@@ -1,10 +1,6 @@
 #ifndef UNISTD_H_
 #define UNISTD_H_
 
-/*
- * Thanks to Microsoft, this header file is mostly a stub.
- */
-
 #include <fcntl.h>
 #include <io.h>
 #include <process.h>
@@ -64,7 +60,10 @@ typedef int gid_t;
 #define getpid _getpid
 #define getppid _getppid
 
-#define sleep(x) _sleep(x)
+unsigned int sleep(unsigned int seconds) {
+	Sleep(seconds * 1000);
+	return 0;
+}
 
 #define ftruncate _chsize
 
