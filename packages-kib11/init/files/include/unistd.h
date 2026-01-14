@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stddef.h>
+#include <unistd.h>
 #include <stdint.h>
 #include <windows.h>
 
