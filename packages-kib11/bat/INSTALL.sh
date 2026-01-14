@@ -19,13 +19,13 @@ fi
 
 powershell -Command "& \"\$env:USERPROFILE\\scoop\\shims\\scoop.cmd\" reset rust" > /dev/null 2>&1
 
-# Use powershell to extract ./files/bat.zip
+# Use powershell to extract ./files/master.zip
 
-powershell -Command "Expand-Archive -Path ./files/bat.zip -DestinationPath ./files/bat"
+powershell -Command "Expand-Archive -Path ./files/master.zip -DestinationPath ./files/bat"
 
 # Change to bat directory
 
-cd ./files/bat/bat
+cd ./files/bat/bat-master
 
 # Compile it
 
