@@ -1,6 +1,5 @@
 #ifndef UNISTD_H_
 #define UNISTD_H_
-
 #include <fcntl.h>
 #include <io.h>
 #include <process.h>
@@ -11,6 +10,26 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <windows.h>
+
+#ifndef S_ISDIR
+#define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
+#endif
+
+#ifndef S_ISREG
+#define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
+#endif
+
+#ifndef S_ISCHR
+#define S_ISCHR(m) (((m) & S_IFMT) == S_IFCHR)
+#endif
+
+#ifndef S_ISBLK
+#define S_ISBLK(m) (((m) & S_IFMT) == S_IFBLK)
+#endif
+
+#ifndef S_ISFIFO
+#define S_ISFIFO(m) (((m) & S_IFMT) == S_IFIFO)
+#endif
 
 typedef long ssize_t;
 typedef unsigned int mode_t;
