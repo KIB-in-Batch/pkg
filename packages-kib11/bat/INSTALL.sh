@@ -14,10 +14,10 @@ powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expres
 which cargo > /dev/null 2>&1
 
 if [ $? -ne 0 ]; then
-    powershell -Command "& \"\$env:USERPROFILE\\scoop\\shims\\scoop.cmd\" install rust"
+    powershell -Command "& \"\$env:USERPROFILE\\scoop\\shims\\scoop.cmd\" install rustup"
 fi
 
-powershell -Command "& \"\$env:USERPROFILE\\scoop\\shims\\scoop.cmd\" reset rust" > /dev/null 2>&1
+powershell -Command "& \"\$env:USERPROFILE\\scoop\\shims\\scoop.cmd\" reset rustup" > /dev/null 2>&1
 
 # Use powershell to extract ./files/master.zip
 
@@ -29,7 +29,7 @@ cd ./files/bat/bat-master
 
 # Compile it
 
-cargo build --release
+cargo build --release --jobs $(nproc)
 
 # Try to find where bat.exe is
 
