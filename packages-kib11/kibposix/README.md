@@ -1,3 +1,0 @@
-# kibposix
-
-Provides POSIX functionality.
