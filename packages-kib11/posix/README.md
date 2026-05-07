@@ -1,0 +1,3 @@
+# posix
+
+Small, simple, fast headers to compile (most) POSIX applications with MSVC.

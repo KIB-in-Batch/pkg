@@ -33,14 +33,6 @@ goto start
 
 :start
 
-rem Check if ROOT is set to 0
-if "%ROOT%" == "0" (
-    echo !COLOR_ERROR!Please log in as the root user to run kib-pkg, or you can:!COLOR_RESET!
-    echo 1. Run kib-pkg with sudo !COLOR_ITALIC!^(e.g. sudo kib-pkg %*!COLOR_RESET!^)
-    echo 2. Use the su command to become root, then run unsu after you don't need root anymore.
-    exit /b 1
-)
-
 if not exist "%APPDATA%\kib_in_batch" (
     echo !COLOR_ERROR!Error: KIB in Batch is not installed on your system.!COLOR_RESET!
     exit /b 1
@@ -75,25 +67,25 @@ if "%*"=="" (
 
 :noargs
 
-echo !COLOR_HEADER!Usage: kib-pkg (install/remove/upgrade/search/list/update/help/info)!COLOR_RESET!
+echo !COLOR_INFO!Usage: kib-pkg (install/remove/upgrade/search/list/update/help/info)!COLOR_RESET!
 exit /b 64
 
 :help
 
-echo !COLOR_HEADER!Usage: kib-pkg (install/remove/upgrade/search/list/update/help)!COLOR_RESET!
+echo !COLOR_INFO!Usage: kib-pkg (install/remove/upgrade/search/list/update/help)!COLOR_RESET!
 echo.
 echo !COLOR_UNDERLINE!Commands:!COLOR_RESET!
 echo.
-echo   !COLOR_COMMAND!install!COLOR_RESET!         - Install a package by name.
-echo   !COLOR_COMMAND!remove!COLOR_RESET!          - Remove an installed package by name.
-echo   !COLOR_COMMAND!upgrade!COLOR_RESET!         - Upgrade an installed package to the latest version.
-echo   !COLOR_COMMAND!upgrade-all!COLOR_RESET!     - Upgrade all packages.
-echo   !COLOR_COMMAND!search!COLOR_RESET!          - Search for packages in the package database.
-echo   !COLOR_COMMAND!list!COLOR_RESET!            - List all installed packages.
-echo   !COLOR_COMMAND!list-available!COLOR_RESET!  - List all available packages.
-echo   !COLOR_COMMAND!update!COLOR_RESET!          - Update the package database cache.
-echo   !COLOR_COMMAND!info!COLOR_RESET!            - Show package information.
-echo   !COLOR_COMMAND!help!COLOR_RESET!            - Display this help message.
+echo   !COLOR_BRIGHT_CYAN!install!COLOR_RESET!         - Install a package by name.
+echo   !COLOR_BRIGHT_CYAN!remove!COLOR_RESET!          - Remove an installed package by name.
+echo   !COLOR_BRIGHT_CYAN!upgrade!COLOR_RESET!         - Upgrade an installed package to the latest version.
+echo   !COLOR_BRIGHT_CYAN!upgrade-all!COLOR_RESET!     - Upgrade all packages.
+echo   !COLOR_BRIGHT_CYAN!search!COLOR_RESET!          - Search for packages in the package database.
+echo   !COLOR_BRIGHT_CYAN!list!COLOR_RESET!            - List all installed packages.
+echo   !COLOR_BRIGHT_CYAN!list-available!COLOR_RESET!  - List all available packages.
+echo   !COLOR_BRIGHT_CYAN!update!COLOR_RESET!          - Update the package database cache.
+echo   !COLOR_BRIGHT_CYAN!info!COLOR_RESET!            - Show package information.
+echo   !COLOR_BRIGHT_CYAN!help!COLOR_RESET!            - Display this help message.
 exit /b
 
 :parse
@@ -137,7 +129,7 @@ if "%1"=="install" (
     goto info
 ) else (
     echo !COLOR_ERROR!Invalid argument: !COLOR_PACKAGE!%1!COLOR_RESET!
-    echo Run '!COLOR_COMMAND!kib-pkg help!COLOR_RESET!' for usage information.
+    echo Run '!COLOR_BRIGHT_CYAN!kib-pkg help!COLOR_RESET!' for usage information.
     exit /b 1
 )
 
@@ -172,14 +164,14 @@ if "!kib-pkg_to_check!"=="" (
 )
 
 if not exist "%APPDATA%\kib_in_batch\packages.list" (
-    echo !COLOR_ERROR!Package database not found. Please run: !COLOR_COMMAND!kib-pkg update!COLOR_RESET!
+    echo !COLOR_ERROR!Package database not found. Please run: !COLOR_BRIGHT_CYAN!kib-pkg update!COLOR_RESET!
     exit /b 1
 )
 
 findstr /c:"!kib-pkg_to_check!" "%APPDATA%\kib_in_batch\packages.list" >nul
 if %errorlevel% neq 0 (
     echo !COLOR_ERROR!Package !COLOR_PACKAGE!!kib-pkg_to_check!!COLOR_RESET!!COLOR_ERROR! is not available in the repository.!COLOR_RESET!
-    echo Try running '!COLOR_COMMAND!kib-pkg search !kib-pkg_to_check!!COLOR_RESET!' to find similar packages.
+    echo Try running '!COLOR_BRIGHT_CYAN!kib-pkg search !kib-pkg_to_check!!COLOR_RESET!' to find similar packages.
     exit /b 1
 )
 goto :eof
@@ -422,7 +414,7 @@ exit /b
 rem Check if package is installed
 call :check_package_installed "%2"
 if %errorlevel% neq 0 (
-    echo !COLOR_ERROR!Package !COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_ERROR! is not installed. Install it by running: !COLOR_COMMAND!kib-pkg install %2!COLOR_RESET!
+    echo !COLOR_ERROR!Package !COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_ERROR! is not installed. Install it by running: !COLOR_BRIGHT_CYAN!kib-pkg install %2!COLOR_RESET!
     exit /b 1
 )
 
@@ -547,7 +539,7 @@ exit /b
 rem Check if package is installed
 call :check_package_installed "%2"
 if %errorlevel% neq 0 (
-    echo !COLOR_ERROR!Package !COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_ERROR! is not installed. Install it by running: !COLOR_COMMAND!kib-pkg install %2!COLOR_RESET!
+    echo !COLOR_ERROR!Package !COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_ERROR! is not installed. Install it by running: !COLOR_BRIGHT_CYAN!kib-pkg install %2!COLOR_RESET!
     exit /b 1
 )
 
@@ -606,7 +598,7 @@ exit /b
 rem Search for packages
 echo !COLOR_INFO!Searching for packages containing "!COLOR_PACKAGE!%2!COLOR_RESET!!COLOR_INFO!"...!COLOR_RESET!
 if not exist "%APPDATA%\kib_in_batch\packages.list" (
-    echo !COLOR_ERROR!Package cache not found. Please run: !COLOR_COMMAND!kib-pkg update!COLOR_RESET!
+    echo !COLOR_ERROR!Package cache not found. Please run: !COLOR_BRIGHT_CYAN!kib-pkg update!COLOR_RESET!
     exit /b 1
 )
 
@@ -625,7 +617,7 @@ if not exist "%APPDATA%\kib_in_batch\installed.packages.list" (
     exit /b
 )
 
-::echo !COLOR_HEADER!Installed packages:!COLOR_RESET!
+::echo !COLOR_INFO!Installed packages:!COLOR_RESET!
 set count=0
 for /f "usebackq delims=" %%a in ("%APPDATA%\kib_in_batch\installed.packages.list") do (
     rem Strip out spaces from the package name
@@ -681,7 +673,7 @@ if exist "!kibroot!\usr\share\%2\VERSION.txt" (
 )
 
 echo.
-echo !COLOR_HEADER!Package information for !COLOR_PACKAGE!%~2!COLOR_RESET!!COLOR_RESET!
+echo !COLOR_INFO!Package information for !COLOR_PACKAGE!%~2!COLOR_RESET!!COLOR_RESET!
 echo.
 echo Name: !COLOR_PACKAGE!%~2!COLOR_RESET!!COLOR_RESET!
 echo Installed version: !COLOR_INFO!%current_version%!COLOR_RESET!

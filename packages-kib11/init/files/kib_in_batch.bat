@@ -307,74 +307,6 @@ echo.
     echo.
     echo ## Functions ##
     echo.
-    echo sudo^(^) {
-    echo     # Check if the first argument is --help
-    echo     if [ "$1" == "--help" ]; then
-    echo        echo "Usage: sudo <command> [args]"
-    echo        echo "Note: This is not the real sudo, neither is it a port of the real sudo."
-    echo        return
-    echo     fi
-    echo     export PREVROOTVAL="$ROOT"
-    echo     export PREVUSERVAL="$USER"
-    echo     export ROOT="1"
-    echo     export USER="root"
-    echo     eval "$@" # Run the arguments
-    echo     export ROOT="$PREVROOTVAL"
-    echo     export USER="$PREVUSERVAL"
-    echo }
-    echo.
-    echo su^(^) {
-    echo     # Check if the first argument is --help
-    echo     if [ "$1" == "--help" ]; then
-    echo        echo "Usage: su"
-    echo        echo "Use this command to become the root user."
-    echo        return
-    echo     fi
-    echo     export ROOT="1"
-    echo     export USER="root"
-    echo     export HOME="!kibroot!/root"
-    echo     #PS1=$'\[\e[34m\]┌──^(\[\e[31m\]root㉿\h\[\e[34m\]^)-[\[\e[0m\]\w\[\e[34m\]]\n\[\e[34m\]└─\[\e[31m\]# \[\e[0m\]'
-    echo }
-    echo.
-    echo unsu^(^) {
-    echo     # Check if the first argument is --help
-    echo     if [ "$1" == "--help" ]; then
-    echo        echo "Usage: unsu"
-    echo        echo "Use this command to become the regular user."
-    echo        return
-    echo     fi
-    echo     if [ "$ROOT" == "0" ]; then
-    echo        echo "Unsu cannot be run as the regular user"
-    echo        return 1
-    echo     fi
-    echo.
-    echo     if [ "$LOGGED_IN_AS_ROOT" == "1" ]; then
-    echo         echo "Unsu cannot be ran as you were never the regular user"
-    echo         return 1
-    echo     fi
-    echo.
-    echo     export ROOT="0"
-    echo     export USER="$USERNAME"
-    echo     export HOME="!kibroot!/home/$USERNAME"
-    echo     #PS1=$'\[\e[32m\]┌──^(\[\e[34m\]\u㉿\h\[\e[32m\]^)-[\[\e[0m\]\w\[\e[32m\]]\n\[\e[32m\]└─\[\e[34m\]$ \[\e[0m\]'
-    echo }
-    echo.
-    echo exit^(^) {
-    echo     if [ "$LOGGED_IN_AS_ROOT" == "1" ]; then
-    echo         exit $1
-    echo     fi
-    echo.
-    echo     if [ "$ROOT" == "1" ]; then
-    echo        export ROOT="0"
-    echo        export USER="$USERNAME"
-    echo        export HOME="!kibroot!/home/$USERNAME"
-    echo        #PS1=$'\[\e[32m\]┌──^(\[\e[34m\]\u㉿\h\[\e[32m\]^)-[\[\e[0m\]\w\[\e[32m\]]\n\[\e[32m\]└─\[\e[34m\]$ \[\e[0m\]'
-    echo        return $1
-    echo     fi
-    echo.
-    echo     command exit $1 # Changed to command exit to fix stack overflow error
-    echo }
-    echo.
     echo ## Change to ~ ##
     echo.
     echo cd ~
@@ -471,43 +403,14 @@ echo.
 echo KIB in Batch 11.0.19
 echo Kernel %kernelversion% on an %PROCESSOR_ARCHITECTURE%
 echo.
-echo Users on this system: %USERNAME%, root
-echo.
-set /p "loginkibusername=%COMPUTERNAME% login: "
-if "%loginkibusername%"=="%USERNAME%" (
-    set "USER=%USERNAME%"
-    set "ROOT=0"
-    set "LOGGED_IN_AS_ROOT=0"
-    set "HOME=!kibroot!\home\%USERNAME%"
-    echo %COLOR_SUCCESS%User found%COLOR_RESET%
-) else if "%loginkibusername%"=="root" (
-    set "ROOT=1"
-    set "USER=root"
-    set "LOGGED_IN_AS_ROOT=1"
-    set "HOME=!kibroot!\root"
-    echo %COLOR_SUCCESS%User found%COLOR_RESET%
-) else (
-    echo %COLOR_ERROR%User not found%COLOR_RESET%
-    echo Press any key to try again...
-    pause >nul
-    goto login
-)
+set "USER=%USERNAME%"
+set "HOME=!kibroot!\home\!USER!"
 
 echo.
 goto startup
 
 :startup
 set "kibenv=!kibroot!\etc\.kibenv"
-rem env flags
-set "ENV=C:/Users/%USERNAME%/kib/etc/.kibenv"
-set "CPPFLAGS=-I!kibroot!/usr/include"
-set "CFLAGS=-O2 -Wall !CPPFLAGS! !kibroot!/usr/lib/libkibposix.dll.a"
-set "CXXFLAGS=-O2 -Wall !CPPFLAGS! !kibroot!/usr/lib/libkibposix.dll.a"
-set "LDFLAGS=-L!kibroot!/usr/lib"
-set "BUILD=x86_64-pc-cygwin"
-set "HOST=x86_64-pc-cygwin"
-set "CC=clang"
-set "CXX=clang++"
 
 cd /d "!HOME!"
 
