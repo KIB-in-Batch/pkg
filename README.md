@@ -82,3 +82,9 @@ git push origin package-name # Replace package-name with your package name
 * Create a pull request to the [original repository](https://github.com/KIB-in-Batch/pkg) to merge your branch into main.
 
 * Alternatively, you can use the GitHub web interface.
+
+## Testing locally
+
+You need an [installation of KIB in Batch](https://kib-in-batch.github.io). For `packages-kib11`, use version 11 and for `packages` use the stable version.
+
+Once you have copied or symlinked the package files (`packages[-kib11]/<package>`) to a directory in the KIB in Batch root, go to the package direcory and run `install.sh`.
