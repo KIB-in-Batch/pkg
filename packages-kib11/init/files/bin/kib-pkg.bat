@@ -76,16 +76,16 @@ echo !COLOR_INFO!Usage: kib-pkg (install/remove/upgrade/search/list/update/help)
 echo.
 echo !COLOR_UNDERLINE!Commands:!COLOR_RESET!
 echo.
-echo   !COLOR_BRIGHT_CYAN!install!COLOR_RESET!         - Install a package by name.
-echo   !COLOR_BRIGHT_CYAN!remove!COLOR_RESET!          - Remove an installed package by name.
-echo   !COLOR_BRIGHT_CYAN!upgrade!COLOR_RESET!         - Upgrade an installed package to the latest version.
-echo   !COLOR_BRIGHT_CYAN!upgrade-all!COLOR_RESET!     - Upgrade all packages.
-echo   !COLOR_BRIGHT_CYAN!search!COLOR_RESET!          - Search for packages in the package database.
-echo   !COLOR_BRIGHT_CYAN!list!COLOR_RESET!            - List all installed packages.
-echo   !COLOR_BRIGHT_CYAN!list-available!COLOR_RESET!  - List all available packages.
-echo   !COLOR_BRIGHT_CYAN!update!COLOR_RESET!          - Update the package database cache.
-echo   !COLOR_BRIGHT_CYAN!info!COLOR_RESET!            - Show package information.
-echo   !COLOR_BRIGHT_CYAN!help!COLOR_RESET!            - Display this help message.
+echo   !COLOR_BOLD!install!COLOR_RESET!         - Install a package by name.
+echo   !COLOR_BOLD!remove!COLOR_RESET!          - Remove an installed package by name.
+echo   !COLOR_BOLD!upgrade!COLOR_RESET!         - Upgrade an installed package to the latest version.
+echo   !COLOR_BOLD!upgrade-all!COLOR_RESET!     - Upgrade all packages.
+echo   !COLOR_BOLD!search!COLOR_RESET!          - Search for packages in the package database.
+echo   !COLOR_BOLD!list!COLOR_RESET!            - List all installed packages.
+echo   !COLOR_BOLD!list-available!COLOR_RESET!  - List all available packages.
+echo   !COLOR_BOLD!update!COLOR_RESET!          - Update the package database cache.
+echo   !COLOR_BOLD!info!COLOR_RESET!            - Show package information.
+echo   !COLOR_BOLD!help!COLOR_RESET!            - Display this help message.
 exit /b
 
 :parse
