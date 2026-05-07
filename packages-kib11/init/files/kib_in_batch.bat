@@ -411,6 +411,7 @@ goto startup
 
 :startup
 set "kibenv=!kibroot!\etc\.kibenv"
+set "ENV=!kibenv!"
 
 cd /d "!HOME!"
 
