@@ -7,5 +7,5 @@
 
 rm -rf /usr/include
 mkdir -p /usr/include
-cp -rfv ./files/ /usr
+cp -rfv ./files/ /usr/include/
 find /usr/include -type f -exec unix2dos {} \;
