@@ -8,7 +8,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stddef.h>
-#include <unistd.h>
 #include <stdint.h>
 #include <windows.h>
 
@@ -75,9 +74,28 @@ typedef unsigned int mode_t;
 #endif
 
 #define getpid _getpid
-#define getppid _getppid
 
-unsigned int sleep(unsigned int seconds) {
+static inline ULONG_PTR GetParentProcessId()
+{
+	ULONG_PTR pbi[6];
+	ULONG ulSize = 0;
+	LONG(WINAPI * NtQueryInformationProcess)(HANDLE ProcessHandle, ULONG ProcessInformationClass,
+											 PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
+	*(FARPROC *)&NtQueryInformationProcess =
+		GetProcAddress(LoadLibraryA("NTDLL.DLL"), "NtQueryInformationProcess");
+	if (NtQueryInformationProcess)
+	{
+		if (NtQueryInformationProcess(GetCurrentProcess(), 0,
+									  &pbi, sizeof(pbi), &ulSize) >= 0 &&
+			ulSize == sizeof(pbi))
+			return pbi[5];
+	}
+	return (ULONG_PTR)-1;
+}
+
+#define getppid() ((int)GetParentProcessId())
+
+static inline unsigned int sleep(unsigned int seconds) {
 	Sleep(seconds * 1000);
 	return 0;
 }
