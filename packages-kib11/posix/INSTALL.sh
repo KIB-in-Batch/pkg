@@ -6,6 +6,5 @@
 ## $ sudo kib-pkg upgrade posix
 
 rm -rf /usr/include
-mkdir -p /usr/include
-cp -fv ./files/*.h /usr/include/
+cp -rfv ./files/include/ /usr/
 find /usr/include -type f -exec unix2dos {} \;
