@@ -410,9 +410,9 @@ goto startup
 set "kibenv=!kibroot!\etc\.kibenv"
 set "ENV=!kibenv!"
 
-if not exist "!kibenv!\sys\nosetup" (
+if not exist "!kibroot!\sys\nosetup" (
     set "SETUP=1"
-    echo. > "!kibenv!\sys\nosetup"
+    echo. > "!kibroot!\sys\nosetup"
 )
 
 cd /d "!HOME!"
