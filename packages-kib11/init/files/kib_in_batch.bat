@@ -325,7 +325,8 @@ echo.
     echo ## Setup ##
     echo.
     echo if [ "$SETUP" = "1" ]; then
-    echo    kib-pkg install posix
+    echo    kib-pkg update
+    echo    kib-pkg install posix --auto
     echo fi
 ) > "!kibroot!\etc\.kibenv" 2>>"%ERRLOG%"
 
