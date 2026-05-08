@@ -295,7 +295,7 @@ echo.
     echo.
     echo ## Aliases ##
     echo.
-    echo if [ "$HASCOLORS" == "1" ]; then
+    echo if [ "$HASCOLORS" = "1" ]; then
     echo     alias ls='ls --color=auto'
     echo     alias grep='grep --color=auto'
     echo else
@@ -321,6 +321,12 @@ echo.
     echo ## Load ~/.bashrc ##
     echo.
     echo source ~/.bashrc
+    echo.
+    echo ## Setup ##
+    echo.
+    echo if [ "$SETUP" = "1" ]; then
+    echo    kib-pkg install posix
+    echo fi
 ) > "!kibroot!\etc\.kibenv" 2>>"%ERRLOG%"
 
 (
@@ -387,16 +393,6 @@ call :time_diff "%starttime%" "%endtime%" elapsed >nul 2>&1
 
 echo ------------------------------------------------
 echo %COLOR_SUCCESS%System boot completed. Boot time: !elapsed!%COLOR_RESET%
-if "%~1"=="automated" (
-    del "!kibroot!\tmp\VERSION.txt" >nul 2>>"%ERRLOG%"
-    set "USER=%USERNAME%"
-    set "HOME=!kibroot!\home\%USERNAME%"
-    set "LOGGED_IN_AS_ROOT=1"
-    set "ROOT=0"
-    goto startup
-) else (
-    goto login
-)
 
 :login
 echo.
@@ -413,6 +409,11 @@ goto startup
 set "kibenv=!kibroot!\etc\.kibenv"
 set "ENV=!kibenv!"
 
+if not exist "!kibenv!\sys\nosetup" (
+    set "SETUP=1"
+    echo > "!kibenv!\sys\nosetup"
+)
+
 cd /d "!HOME!"
 
 %busybox_path% bash -l
@@ -424,7 +425,7 @@ goto :eof
 for %%f in ("%USERPROFILE%\kib\usr\bin\*.bat") do (
     (
         echo #!/bin/bash
-        echo "/bin/%%~nf.bat"
+        echo "/bin/%%~nf.bat" "$@"
         echo exit $?
     ) > "%USERPROFILE%\kib\usr\bin\%%~nf"
 )
