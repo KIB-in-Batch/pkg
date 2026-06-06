@@ -45,7 +45,6 @@ typedef unsigned int mode_t;
 #define dup2 _dup2
 #define access _access
 #define chdir _chdir
-#define mkdir _mkdir
 #define rmdir _rmdir
 #define unlink _unlink
 #define isatty _isatty
